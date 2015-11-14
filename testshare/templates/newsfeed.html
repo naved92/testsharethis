@@ -5,90 +5,218 @@
 {% block title %}Newsfeed{% endblock %}
 
 {% block body_block %}
+    <!-- status starts -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <hr>
+                <form action=" {% url 'newsfeed' %}" method="POST" role="form" enctype="multipart/form-data"
+                      class="facebook-share-box">
+                    {% csrf_token %}
+                    <ul class="post-types">
+                        <li class="post-type">
+                            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
 
-
-<div class="container">
-			<div class="row">
-				    <div class="col-md-8">
-				    <div class="contact-form bottom">
-                        <form id="main-contact-form" name="contact-form" method="POST" action=""> 
-                            <div class="form-group">
-                                <textarea name="status" id="status" required="required" class="form-control" rows="8" placeholder="How's everything going around you?"></textarea>
-                            </div>                        
-                            <div class="form-group">
-								<div class="col -md-5">
-								</div>
-                                <div class="col -md-2">
-								<input type="submit" name="submit" class="form-control btn btn-register" value="Submit">
+                            <a class="status" title="" href="#"><i class="icon icon-file"></i> Share an Update</a>
+                        </li>
+                        <li class="post-type">
+                            <a class="photos" href="#"><i class="icon icon-camera"></i> Add photos</a>
+                        </li>
+                    </ul>
+                    <div class="share">
+                        <div class="arrow"></div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><i class="fa fa-file"></i> Update Status</div>
+                            <div class="panel-body">
+                                <div class="">
+                                    <textarea name="status" cols="40" rows="10" id="status"
+                                              class="form-control message" style="height: 62px; overflow: hidden;"
+                                              placeholder="What's on your mind ?"></textarea>
                                 </div>
-                                
-                                
-                                
                             </div>
-                        </form>
-                        
-                    </div>
-                
-				    </div>
-				    <div class="col-md-4">
-						<div >
-        <div class="text-center">
-          <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="avatar img-circle" alt="avatar">
-          <h6>Upload a different photo...</h6>
-          
-          <input class="form-control" type="file">
-        </div>
-      </div>
-      
-				    </div>
-						
-            </div>
-</div>
-<div class="container">
-                
-			<div class="response-area">
-                                    <h2 class="bold">Posts</h2>
-                                    
-                                    
-                                    <ul class="media-list">
-									<INDENT>
-									
-                                        <li class="media">
-                                            <div class="post-comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="media-object" src="{% static 'images/home/slider/slide1/sun.png' %}" alt="">
-                                                </a>
-                                                <div class="media-body">
-                                                    <span><i class="fa fa-user"></i>Posted by <a href="#"></a></span>
-                                                    <p></p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i></a></li>
-                                                        <!--<li><a href="#"><i class="fa fa-globe"></i>BUET,Dhaka</a></li>
-                                                        -->
-                                                        <li><a href="#"><i class="fa fa-comments"></i> Spreads</a></li>
-                                                        
-                                                    </ul>
-                                                    
-                                                    <div>
-                                                    <br>
-                                                    
-                                                    </div>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                                        <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
-                                            
-                                                    </ul>
-                                                
-                                                </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-group">
+                                            <div class="btn-group">
+                                                <!-- <button type="button" class="btn btn-default"><i
+                                                         class="icon icon-picture"></i> Photo
+
+                                                 </button>
+                                                 -->
+                                                <i class="icon icon-picture"></i> Photo
+                                                <input id="id_docfile" name="post_photo" class="btn btn-default"
+                                                       type="file">
+                                                </input>
+
                                             </div>
-                                            
-                                        </li>
-                                    
-                                        
-                                    
-									</INDENT>
-                                    </ul>                   
-                                </div><!--/Response-area-->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" value="Post" class="btn btn-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </form>
         </div>
+    </div>
+    </div>
+
+    <!-- status ends -->
+    <!--
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="contact-form bottom">
+                    <form id="main-contact-form" name="contact-form" method="POST" action=" {% url 'newsfeed' %} ">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+                            <textarea name="status" id="status" required="required" class="form-control" rows="8"
+                                      placeholder="How's everything going ?"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col -md-5">
+                            </div>
+                            <div class="col -md-2">
+                                <input type="submit" name="submit" class="form-control btn btn-register" value="Submit">
+                            </div>
+
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <div class="text-center">
+                        <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="avatar img-circle"
+                             alt="avatar">
+                        <h6>Upload a different photo...</h6>
+
+                        <input class="form-control" type="file">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    -->
+    <div class="container">
+
+        <div class="response-area">
+            <h2 class="bold">Posts</h2>
+
+
+            <ul class="media-list">
+                <INDENT>
+                    {% for post in posts %}
+                        <li class="media">
+
+
+                            <div class="post-comment">
+
+                                <ul class="nav navbar-nav post-nav">
+                                    <li>
+                                        <i class="fa fa-user">
+
+                                            {{ post.post_maker.user.username }}
+
+                                        </i>
+
+                                        <h3>
+                                            <a href="#">
+
+                                            </a>
+                                        </h3>
+
+
+                                    </li>
+                                    <div>
+                                        <br>
+
+                                    </div>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-clock-o">
+                                                {{ post.post_time }}
+
+                                            </i>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-globe">
+
+                                                {{ post.post_location }}
+                                            </i>
+                                        </a>
+                                    </li>
+
+
+                                </ul>
+
+
+
+
+                                <div class="media-body">
+
+                                    <blockquote>
+                                    <span>
+                                        {{ post.post_text }}
+
+                                    </span>
+
+                                    </blockquote>
+
+
+                                    <div>
+                                        <br>
+
+                                    </div>
+                                    <a class="pull-left" href="#">
+                                    <img class="media-object" src="{{ MEDIA_URL }}{{ post.post_photo }}"
+                                         alt="">
+                                    </a>
+
+                                    <div>
+                                    <br>
+                                    <br>
+                                    </div>
+                                    <ul class="nav navbar-nav post-nav">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-comments">
+                                                    {{ post.post_sharecount }}
+                                                </i> Spreads
+                                            </a>
+                                        </li>
+
+                                        <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
+                                        <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </li>
+
+
+                    {% endfor %}
+                </INDENT>
+            </ul>
+        </div><!--/Response-area-->
+    </div>
 {% endblock %}

@@ -41,11 +41,14 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('post_text', models.CharField(max_length=300, blank=True)),
-                ('post_photo', models.ImageField(upload_to=b'post_images', blank=True)),
-                ('post_time', models.DateTimeField(blank=True)),
+                ('post_photo', models.ImageField(upload_to=b'post_images/', blank=True)),
+                ('post_time', models.DateTimeField(null=True, blank=True)),
                 ('post_sharecount', models.IntegerField(null=True, blank=True)),
-                ('post_location', models.ForeignKey(to='testshare.Location')),
+                ('post_location', models.ForeignKey(blank=True, to='testshare.Location', null=True)),
             ],
+            options={
+                'ordering': ['-post_time'],
+            },
         ),
         migrations.CreateModel(
             name='UserProfile',
@@ -66,7 +69,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='post_sharedfrom',
-            field=models.ForeignKey(to='testshare.Post', null=True),
+            field=models.ForeignKey(blank=True, to='testshare.Post', null=True),
         ),
         migrations.AddField(
             model_name='log',

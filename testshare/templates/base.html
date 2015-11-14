@@ -15,6 +15,7 @@
 	<link href="{% static 'css/main.css' %}" rel="stylesheet">
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/round-about.css' %}" rel="stylesheet">
+    <link href="{% static 'css/statusupdate.css' %}" rel="stylesheet">
 
 
     <!--[if lt IE 9]>
@@ -66,10 +67,10 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="../newsfeed">Home</a></li>
-                        <li><a href="../aboutus">About Us</a></li>
-                        <li><a href="../profile">My profile</a></li>
-                        <li><a href="../updateinfo">Update Info</a></li>
+                        <li><a href="{% url 'newsfeed' %}">Home</a></li>
+                        <li><a href="{% url 'aboutus' %}">About Us</a></li>
+                        <li><a href="{% url 'profile' %}">My profile</a></li>
+                        <li><a href="{% url 'updateinfo' %}">Update Info</a></li>
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                 </div>

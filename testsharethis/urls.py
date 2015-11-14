@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.conf.urls.static import static
+
 """testsharethis URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,7 +23,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^testshare/', include('testshare.urls')),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
         
 
