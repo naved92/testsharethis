@@ -160,7 +160,7 @@ def newsfeed(request):
             uploaded_file = request.FILES.get('post_photo')
             print(uploaded_file.name)
             parts=uploaded_file.name.split(".")
-            print(parts)
+            #print(parts)
             joinstring=""+post_maker.user.username+'_'+str(post_time)+'.'+parts[len(parts)-1]
             uploaded_file.name=joinstring
             post.post_photo=uploaded_file
