@@ -5,12 +5,14 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
-from testshare.models import User, UserProfile, Post
+from testshare.models import User, UserProfile, Post,Profileposts
 from testshare.forms import RegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
 from string import join,split
+from random import randint
+import cgi
 def index(request):
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
@@ -63,15 +65,38 @@ def profile(request):
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
-
-    # Construct a dictionary to pass to the template engine as its context.
-    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
-
+    username = UserProfile.objects.get(user=request.user)
+    posts = Post.objects.filter(post_maker=username)
+    today = datetime.now()
+    toplabel = today.strftime('%B')
 
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-    return render_to_response('profile.html', {}, context)
+
+    post_count=Post.objects.filter(post_maker=username).count()
+
+    profilepostlist=[]
+    for post in posts:
+        profpost=Profileposts()
+        profpost.post_info=post
+        choice = int(randint(0,1))
+        if choice ==1:
+            leftPost = '<div class="col-sm-6 padding-right arrow-right wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">'
+            leftPost = cgi.escape(leftPost,quote=True)
+            profpost.alignment = leftPost
+        else:
+            rightPost = '<div class=\"col-sm-6\"> <br> </div> <div class=\"col-sm-6 padding-left arrow-left wow fadeInRight\" data-wow-duration=\"1000ms\" data-wow-delay=\"300ms\"\>'
+            rightPost = cgi.escape(rightPost,quote=True)
+            profpost.alignment = rightPost
+        profilepostlist.append(profpost)
+        print(profpost.alignment)
+    print(profilepostlist)
+    #randlist=[int(randint(0,1)) for i in xrange(post_count)]
+
+    #zipped=zip(posts,randlist)
+    #print(zipped)
+    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel}, context)
 
 
 def about(request):
@@ -145,8 +170,6 @@ def user_login(request):
 
 @login_required(login_url='/testshare/')
 def newsfeed(request):
-    # A boolean value for telling the template whether the registration was successful.
-    # Set to False initially. Code changes value to True when registration succeeds.
 
     context = RequestContext(request)
     posts=Post.objects.all()
@@ -162,8 +185,8 @@ def newsfeed(request):
             parts=uploaded_file.name.split(".")
             #print(parts)
             joinstring=""+post_maker.user.username+'_'+str(post_time)+'.'+parts[len(parts)-1]
-            uploaded_file.name=joinstring
-            post.post_photo=uploaded_file
+            uploaded_file.name = joinstring
+            post.post_photo = uploaded_file
 
         post.save()
 

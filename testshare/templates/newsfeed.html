@@ -13,38 +13,25 @@
                 <form action=" {% url 'newsfeed' %}" method="POST" role="form" enctype="multipart/form-data"
                       class="facebook-share-box">
                     {% csrf_token %}
-                    <ul class="post-types">
-                        <li class="post-type">
-                            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-
-                            <a class="status" title="" href="#"><i class="icon icon-file"></i> Share an Update</a>
-                        </li>
-                        <li class="post-type">
-                            <a class="photos" href="#"><i class="icon icon-camera"></i> Add photos</a>
-                        </li>
-                    </ul>
                     <div class="share">
                         <div class="arrow"></div>
                         <div class="panel panel-default">
-                            <div class="panel-heading"><i class="fa fa-file"></i> Update Status</div>
+                            <div class="panel-heading"><i class="fa fa-terminal"></i> <strong>Update Status</strong></div>
                             <div class="panel-body">
                                 <div class="">
                                     <textarea name="status" cols="40" rows="10" id="status"
-                                              class="form-control message" style="height: 62px; overflow: hidden;"
-                                              placeholder="What's on your mind ?"></textarea>
+                                              class="form-control message" style="height: 62px; overflow: hidden;" required
+                                              placeholder="Share what you want to..."></textarea>
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <div class="row">
-                                    <div class="col-md-7">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <div class="btn-group">
-                                                <!-- <button type="button" class="btn btn-default"><i
-                                                         class="icon icon-picture"></i> Photo
-
-                                                 </button>
-                                                 -->
-                                                <i class="icon icon-picture"></i> Photo
+                                                <small>Add Photos to Your Story</small>
                                                 <input id="id_docfile" name="post_photo" class="btn btn-default"
                                                        type="file">
                                                 </input>
@@ -52,11 +39,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <input type="submit" name="submit" value="Post" class="btn btn-primary">
+                                    <div class="col-md-1">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            </br>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <input id="submitButton" type="submit" name="submit" value="Post"
+                                                       class="btn btn-primary btn-block ">
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-1">
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -66,52 +65,6 @@
         </div>
     </div>
     </div>
-
-    <!-- status ends -->
-    <!--
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="contact-form bottom">
-                    <form id="main-contact-form" name="contact-form" method="POST" action=" {% url 'newsfeed' %} ">
-                        {% csrf_token %}
-
-                        <div class="form-group">
-                            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-                            <textarea name="status" id="status" required="required" class="form-control" rows="8"
-                                      placeholder="How's everything going ?"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col -md-5">
-                            </div>
-                            <div class="col -md-2">
-                                <input type="submit" name="submit" class="form-control btn btn-register" value="Submit">
-                            </div>
-
-
-                        </div>
-                    </form>
-
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div>
-                    <div class="text-center">
-                        <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="avatar img-circle"
-                             alt="avatar">
-                        <h6>Upload a different photo...</h6>
-
-                        <input class="form-control" type="file">
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-    -->
     <div class="container">
 
         <div class="response-area">
@@ -168,8 +121,6 @@
                                 </ul>
 
 
-
-
                                 <div class="media-body">
 
                                     <blockquote>
@@ -185,15 +136,18 @@
                                         <br>
 
                                     </div>
+                                    {% if post.post_photo %}
                                     <a class="pull-left" href="#">
-                                    <img class="media-object" src="{{ MEDIA_URL }}{{ post.post_photo }}"
-                                         alt="">
+                                        <img class="media-object" src="{{ MEDIA_URL }}{{ post.post_photo }}"
+                                             width="400" alt="">
                                     </a>
-
+                                    {% endif %}
                                     <div>
-                                    <br>
-                                    <br>
+                                        <br>
+                                        <br>
                                     </div>
+
+
                                     <ul class="nav navbar-nav post-nav">
                                         <li>
                                             <a href="#">

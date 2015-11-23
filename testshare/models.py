@@ -49,3 +49,9 @@ class Block(models.Model):
     blocker = models.ForeignKey(UserProfile, related_name='user_who_blocked')
     blocked = models.ForeignKey(UserProfile, related_name='user_who_got_blocked')
     block_time = models.DateTimeField(blank=True)
+
+
+class Profileposts:
+    def __init__(self):
+        self.post_info = Post()
+        self.alignment=""

@@ -5,38 +5,39 @@
 {% block title %}Profile{% endblock %}
 
 {% block body_block %}
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-<div class="container" style="margin-top: 20px; margin-bottom: 20px;">
-	<div class="row panel">
-		<div class="col-md-4 bg_blur ">
-    	</div>
-        <div class="col-md-8  col-xs-12">
-			<img src="{% static 'images/home/slider/slide1/sun.png' %}" alt="Your profile picture" class="img-thumbnail picture hidden-xs" />
-           
-           <img src="{% static 'images/home/slider/slide1/sun.png' %}" alt="Your profile picture" class="img-thumbnail visible-xs picture_mob" />
-           <div class="header">
-                <h1>Lorem Ipsum</h1>
-                <h4>dolorsit@gmail.com</h4>
-                <span>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</span>
-           </div>
+    <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="row panel">
+            <div class="col-md-4 bg_blur ">
+            </div>
+            <div class="col-md-8  col-xs-12">
+                <img src="{% static 'images/home/slider/slide1/sun.png' %}" alt="Your profile picture"
+                     class="img-thumbnail picture hidden-xs"/>
+
+                <img src="{% static 'images/home/slider/slide1/sun.png' %}" alt="Your profile picture"
+                     class="img-thumbnail visible-xs picture_mob"/>
+
+                <div class="header">
+                    <h1>{{ request.user.username }}</h1>
+                    <h4>{{ request.user.email }}</h4>
+                <span> </span>
+                </div>
+            </div>
         </div>
-    </div>   
-    
-	</div>
-<div>
 
-</div>
-<section id="page-breadcrumb">
+    </div>
+    <div>
+
+    </div>
+    <section id="page-breadcrumb">
         <div class="vertical-center sun">
-             <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="action">
                         <div class="col-sm-12">
                             <h1 class="title">Timeline</h1>
-                            
                         </div>
                     </div>
                 </div>
@@ -44,138 +45,56 @@
         </div>
     </section>
     <!--/#page-breadcrumb-->
-    
+
     <section id="blog" class="padding-bottom">
         <div class="container">
             <div class="row">
-				
+
                 <div class="timeline-blog overflow padding-top">
                     <div class="timeline-date text-center">
-                        <a href="#" class="btn btn-common uppercase">November 2013</a>
+                        <a href="#" class="btn btn-common uppercase"></a>
                     </div>
-                    
+                {% for post in posts %}
+
                     <div class="timeline-divider overflow padding-bottom">
-                        <div class="col-sm-6 padding-right arrow-right wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
+
+                       <div class="col-sm-6 padding-right arrow-right wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
+
                             <div class="single-blog timeline">
                                 <div class="single-blog-wrapper">
                                     <div class="post-comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="media-object" src="{% static 'images/ico/apple-touch-icon-144-precomposed.png' %} alt="">
-                                                </a>
-                                                <div class="media-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
-                                                        <li><a href="#"><i class="fa fa-globe"></i>BUET,Dhaka</a></li>
-                                                        
-                                                        <li><a href="#"><i class="fa fa-comments"></i>3 Spreads</a></li>
-                                                        
-                                                    </ul>
-                                                    
-                                                    <div>
-                                                    <br>
-                                                    
-                                                    </div>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                                        <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
-                                            
-                                                    </ul>
-                                                
-                                                </div>
+
+                                        <div class="media-body">
+                                            <p>{{ post.post_info.post_text}}</p>
+                                             {% if post.post_info.post_photo %}
+                                            <img src="{{ MEDIA_URL }}{{ post.post_info.post_photo }}" width="400"/>
+                                            {% endif %}
+                                            <ul class="nav navbar-nav post-nav">
+                                                <li><a href="#"><i class="fa fa-clock-o"></i>{{ post.post_info.post_time }}</a></li>
+                                                <li><a href="#"><i class="fa fa-globe"></i>{{ post.post_info.post_location   }}</a></li>
+                                                <li><a href="#"><i class="fa fa-comments"></i>{{ post.post_info.post_sharecount }} Spreads</a></li>
+                                            </ul>
+
+                                            <div>
+                                                <br>
                                             </div>
-                                    <div class="post-comment">
-                                                <a class="pull-left" href="#">
-                                                    <img class="media-object" src="{% static 'images/ico/apple-touch-icon-144-precomposed.png' %} alt="">
-                                                </a>
-                                                <div class="media-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.</p>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        
-                                                        <li><a href="#"><i class="fa fa-clock-o"></i>February 11,2014</a></li>
-                                                        <li><a href="#"><i class="fa fa-globe"></i>BUET,Dhaka</a></li>
-                                                        
-                                                        <li><a href="#"><i class="fa fa-comments"></i>3 Spreads</a></li>
-                                                        
-                                                    </ul>
-                                                    
-                                                    <div>
-                                                    <br>
-                                                    
-                                                    </div>
-                                                    <ul class="nav navbar-nav post-nav">
-                                                        <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                                        <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
-                                            
-                                                    </ul>
-                                                
-                                                </div>
-                                            </div>
-                                                    
-                                    <div class="post-thumb">
-                                        <img src="images/blog/timeline/1.jpg" class="img-responsive" alt="">
-                                        <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
+                                            <ul class="nav navbar-nav post-nav">
+                                                <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
+                                                <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
+                                            </ul>
+                                        </div>
                                     </div>
+
+
                                 </div>
-                                
+
                             </div>
                         </div>
-                        <div class="col-sm-6 padding-left padding-top arrow-left wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <div class="single-blog timeline">
-                                <div class="single-blog-wrapper">
-                                    <div class="post-thumb">
-                                        <img src="images/blog/timeline/2.jpg" class="img-responsive" alt="">
-                                        <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
-                                    </div>
-                                </div>
-                                                            </div>
-                        </div>
-                        <div class="col-sm-6 padding-right arrow-right wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <div class="single-blog timeline">
-                                </div>
-                        </div>
                     </div>
                 </div>
-                <div class="timeline-blog overflow">
-                    <div class="timeline-date text-center">
-                        <a href="" class="btn btn-common uppercase">September 2013</a>
-                    </div>
-                    <div class="timeline-divider overflow padding-bottom">
-                        <div class="col-sm-6 padding-right arrow-right wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <div class="single-blog timeline">
-                                <div class="single-blog-wrapper">
-                                    <div class="post-thumb">
-                                        <img src="images/blog/timeline/3.jpg" class="img-responsive" alt="">
-                                        <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </div>
-                        <div class="col-sm-6 padding-left padding-top arrow-left wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">
-                            <div class="single-blog timeline">
-                                <div class="single-blog-wrapper">
-                                    <div class="post-thumb">
-                                        <img src="images/blog/timeline/4.jpg" class="img-responsive" alt="">
-                                        <div class="post-overlay">
-                                           <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
-                                       </div>
-                                    </div>
-                                </div>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="timeline-date text-center">
-                        <a href="#" class="btn btn-common">See More</a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+
+        </div>
         </div>
     </section>
 {% endblock %}
