@@ -4,10 +4,15 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+"""Model refereing to user profile,based on the top of django User model"""
+"""about_me->about me text about the user"""
+"""picture->profile picture of the user"""
+"""last_location->last location of the user"""
+
 class UserProfile(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
-    pw = models.CharField(blank=True, max_length=10);
+
     # The additional attributes we wish to include.
     about_me = models.CharField(blank=True, max_length=300)
     picture = models.ImageField(upload_to='profile_images', blank=True)
@@ -17,6 +22,7 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
+"""Model refering to the different locations of the users."""
 
 class Location(models.Model):
     location_name = models.CharField(blank=True, max_length=300)

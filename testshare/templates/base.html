@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <meta name="description" content="">
     <meta name="author" content="">
     <title>{% block title %}{% endblock %} | {{ request.user.username }}  |Sharethis</title>
@@ -16,7 +17,7 @@
 	<link href="{% static 'css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/round-about.css' %}" rel="stylesheet">
     <link href="{% static 'css/statusupdate.css' %}" rel="stylesheet">
-
+    <link href="{% static 'css/jasny-bootstrap.css' %}" rel="stylesheet">
 
     <!--[if lt IE 9]>
 	    <script src="{% static 'js/html5shiv.js' %}"></script>
@@ -157,5 +158,6 @@
     <script type="text/javascript" src="{% static 'js/wow.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/logreg.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jasney-bootstrap.js' %}"></script>
 </body>
 </html>

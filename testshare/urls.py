@@ -10,5 +10,5 @@ urlpatterns = [
 		url(r'^newsfeed/$', views.newsfeed, name='newsfeed'),
         url(r'^profile/$', views.profile, name='profile'),
         url(r'^updateinfo/$', views.updateinfo, name='updateinfo'),
-        
+        url(r'^spread/(?P<post_id>[0-9]+)/$', views.spread, name='spread'),
         ]

@@ -6,13 +6,164 @@ from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
 from testshare.models import User, UserProfile, Post,Profileposts
-from testshare.forms import RegistrationForm
+from testshare.forms import RegistrationForm,UpdateProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 from datetime import datetime
 from string import join,split
 from random import randint
+from django.core.urlresolvers import reverse
 import cgi
+from urllib2 import urlopen
+from contextlib import closing
+import json
+from ipware.ip import get_ip
+import math
+
+def get_location(ip):
+    """
+    determines location using http:freegeoip.net API
+
+    Args:
+        ip(str): a valid global ipv4 address
+
+    Returns:
+        location_data(dict): a JSON format containing necessary attributes of a location based on the given ip
+
+            Example:
+
+            {
+            u'city': u'', u'region_code': u'',
+            u'region_name': u'', u'ip': u'2607:f8b0:4006:80f::200e',
+            u'time_zone': u'', u'longitude': -98.5,
+            u'metro_code': 0, u'latitude': 39.76,
+            u'country_code': u'US', u'country_name': u'United States',
+            u'zip_code': u''
+            }
+
+    Raises:
+
+        if location can not be determined,prints "Location can not be determined successfully"
+
+    """
+
+    url='http://freegeoip.net/json/'
+    url=url+ str(ip)
+    try:
+        with closing(urlopen(url)) as response:
+            location_data = json.loads(response.read())
+            print(location_data)
+
+            return location_data
+    except:
+        print("Location could not be determined automatically")
+
+def get_ip_address(request):
+
+    """
+    returns the remote address of the client request
+
+    Args:
+        request(Request): a Request variable,whose remote address has to be determined
+
+    Returns:
+        ip_address(str): a string representing a valid ipv4 address
+
+
+    """
+    ip_address = get_ip(request)
+    if ip is not None:
+        print "we have an IP address for user"
+    else:
+        print "we don't have an IP address for user"
+    return ip_address
+
+def get_proximity_range(location_data,x_range,y_range):
+    """
+    returns the range of the latitude and longitude in between which a user can see others posts
+
+    Args:
+        location_data(dict):
+
+            a JSON format dictionary containing necessary attributes of a location based on the given ip
+
+            Example:
+
+            {
+            u'city': u'', u'region_code': u'',
+            u'region_name': u'', u'ip': u'2607:f8b0:4006:80f::200e',
+            u'time_zone': u'', u'longitude': -98.5,
+            u'metro_code': 0, u'latitude': 39.76,
+            u'country_code': u'US', u'country_name': u'United States',
+            u'zip_code': u''
+            }
+
+        x_range(double):
+            range of longitude
+
+        y_range(double):
+            range of latitude
+
+    Returns:
+
+        proximity_range(dict):
+
+            a dictionary containing the [min,max] of [latitude,logitude]
+
+            example:
+                {
+                'min_lat':-22.36 ,
+                'max_lat':86.35,
+                'min_long':-98.23,
+                'max_long':127.12
+                }
+    """
+
+    proximity_range={
+        'min_lat':-90.00 ,
+        'max_lat':90.00,
+        'min_long':-180.00,
+        'max_long':180.00
+    }
+
+    proximity_range['min_lat']=math.ceil(location_data['latitude']-y_range)
+    proximity_range['max_lat']=math.ceil(location_data['latitude']+y_range)
+    proximity_range['min_long']=math.ceil(location_data['longitude']-x_range)
+    proximity_range['max_long']=math.ceil(location_data['longitude']+x_range)
+
+    if(proximity_range['min_lat']<-90.00):
+        proximity_range['min_lat']=-90.00
+    if(proximity_range['max_lat']>90.00):
+        proximity_range['max_lat']=90.00
+    if(proximity_range['min_long']<-180.00):
+        proximity_range['min_long']=-180.00
+    if(proximity_range['max_long']>180.00):
+        proximity_range['max_long']=-90.00
+
+    return proximity_range
+
+
+def get_valid_range(request,x_range,Y_range):
+    """
+    returns the proximity range of the client
+
+    :param request:a Request variable
+           x_range:a double,range of longitude
+           y_range:a double,range of latitude
+    :return:proximity_range_client(dict):
+        a dictionary containing the [min,max] of [latitude,logitude]
+
+            example:
+                {
+                'min_lat':-22.36 ,
+                'max_lat':86.35,
+                'min_long':-98.23,
+                'max_long':127.12
+                }
+    """
+
+    return get_proximity_range(get_location(get_ip_address(request)),x_range,y_range)
+
 def index(request):
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
@@ -25,7 +176,8 @@ def index(request):
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
-
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse(newsfeed))
     return render_to_response('index.html', {}, context)
 
 
@@ -53,7 +205,14 @@ def updateinfo(request):
     # Construct a dictionary to pass to the template engine as its context.
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
 
-
+    if request.method=='POST':
+        print(request.POST.get('email'))
+        print(request.POST.get('aboutme'))
+        userprofile = UserProfile.objects.get(user=request.user)
+        userprofile.about_me=request.POST.get('aboutme')
+        userprofile.user.email=request.POST.get('email')
+        userprofile.save()
+        return HttpResponseRedirect(reverse('profile'))
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
@@ -92,11 +251,12 @@ def profile(request):
         profilepostlist.append(profpost)
         print(profpost.alignment)
     print(profilepostlist)
+    print(username.about_me)
     #randlist=[int(randint(0,1)) for i in xrange(post_count)]
 
     #zipped=zip(posts,randlist)
     #print(zipped)
-    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel}, context)
+    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username}, context)
 
 
 def about(request):
@@ -131,7 +291,12 @@ def register(request):
             )
             userprofile=UserProfile(user=user)
             userprofile.save()
-            return HttpResponseRedirect('/testshare/')
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+            login(request, user)
+            #print(request.POST.get('next'))
+            return redirect('/testshare/newsfeed/')
+
+
     else:
         form = RegistrationForm()
     variables = RequestContext(request, {
@@ -161,7 +326,7 @@ def user_login(request):
                 login(request, user)
                 print(request.POST.get('next'))
                 if (request.POST.get('next') == ''):
-                    return redirect('/testshare/aboutus/')
+                    return redirect('/testshare/newsfeed/')
                 return redirect(request.POST.get('next'))
 
 
@@ -170,7 +335,6 @@ def user_login(request):
 
 @login_required(login_url='/testshare/')
 def newsfeed(request):
-
     context = RequestContext(request)
     posts=Post.objects.all()
     if request.POST:
@@ -202,3 +366,20 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/testshare/')
+
+@login_required(login_url='/testshare/')
+def spread(request,post_id):
+    spreadedpost=Post.objects.get(pk=post_id)
+    spreadedpost.post_sharecount+=1
+    spreadedpost.save()
+
+    newpost=Post()
+    newpost.post_maker=UserProfile.objects.get(user=request.user)
+    newpost.post_text=" SPREADED FROM  "+spreadedpost.post_maker.user.username+" ::: "+spreadedpost.post_text
+    newpost.post_photo=spreadedpost.post_photo
+    newpost.post_sharecount=0
+    newpost.post_sharedfrom=spreadedpost
+    newpost.post_time=datetime.now()
+
+    newpost.save()
+    return HttpResponseRedirect(reverse('newsfeed'))
