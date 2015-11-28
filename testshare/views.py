@@ -1,7 +1,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response, render
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpRequest
 from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
@@ -71,6 +71,7 @@ def get_ip_address(request):
 
 
     """
+
     ip_address = get_ip(request)
     if ip is not None:
         print "we have an IP address for user"
@@ -211,6 +212,16 @@ def updateinfo(request):
         userprofile = UserProfile.objects.get(user=request.user)
         userprofile.about_me=request.POST.get('aboutme')
         userprofile.user.email=request.POST.get('email')
+
+        if request.FILES.get('profile_photo'):
+            uploaded_file = request.FILES.get('profile_photo')
+            print(uploaded_file.name)
+            parts=uploaded_file.name.split(".")
+            print(parts)
+            joinstring=""+request.user.username+'_'+'.'+parts[len(parts)-1]
+            uploaded_file.name = joinstring
+            userprofile.picture= uploaded_file
+
         userprofile.save()
         return HttpResponseRedirect(reverse('profile'))
     # Return a rendered response to send to the client.
@@ -284,13 +295,14 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
+            user_temp = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password1'],
                 email=form.cleaned_data['email']
             )
-            userprofile=UserProfile(user=user)
+            userprofile=UserProfile(user=user_temp)
             userprofile.save()
+            print(userprofile.user.username)
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
             #print(request.POST.get('next'))
@@ -336,6 +348,7 @@ def user_login(request):
 @login_required(login_url='/testshare/')
 def newsfeed(request):
     context = RequestContext(request)
+    print(get_location('google.com'))
     posts=Post.objects.all()
     if request.POST:
         print(request.POST.get('status'))

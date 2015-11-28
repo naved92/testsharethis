@@ -54,7 +54,6 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('pw', models.CharField(max_length=10, blank=True)),
                 ('about_me', models.CharField(max_length=300, blank=True)),
                 ('picture', models.ImageField(upload_to=b'profile_images', blank=True)),
                 ('last_location', models.CharField(max_length=300, blank=True)),

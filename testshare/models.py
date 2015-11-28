@@ -14,6 +14,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
+    pw=models.CharField(max_length=10, blank=True)
     about_me = models.CharField(blank=True, max_length=300)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     last_location = models.CharField(blank=True, max_length=300)

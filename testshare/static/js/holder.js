@@ -135,13 +135,13 @@ app.flags = {
 			return this.regex.exec(val)[1];
 		}
 	}
-}
+};
 
 function text_size(width, height, template) {
 	height = parseInt(height, 10);
 	width = parseInt(width, 10);
-	var bigSide = Math.max(height, width)
-	var smallSide = Math.min(height, width)
+	var bigSide = Math.max(height, width);
+	var smallSide = Math.min(height, width);
 	var scale = 1 / 12;
 	var newHeight = Math.min(smallSide * 0.75, 0.75 * bigSide * scale);
 	return {
@@ -153,19 +153,19 @@ var svg_el = (function(){
 	//Prevent IE <9 from initializing SVG renderer
 	if(!window.XMLSerializer) return;
 	var serializer = new XMLSerializer();
-	var svg_ns = "http://www.w3.org/2000/svg"
+	var svg_ns = "http://www.w3.org/2000/svg";
 	var svg = document.createElementNS(svg_ns, "svg");
 	//IE throws an exception if this is set and Chrome requires it to be set
 	if(svg.webkitMatchesSelector){
 		svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
 	}
-	var bg_el = document.createElementNS(svg_ns, "rect")
-	var text_el = document.createElementNS(svg_ns, "text")
-	var textnode_el = document.createTextNode(null)
-	text_el.setAttribute("text-anchor", "middle")
-	text_el.appendChild(textnode_el)
-	svg.appendChild(bg_el)
-	svg.appendChild(text_el)
+	var bg_el = document.createElementNS(svg_ns, "rect");
+	var text_el = document.createElementNS(svg_ns, "text");
+	var textnode_el = document.createTextNode(null);
+	text_el.setAttribute("text-anchor", "middle");
+	text_el.appendChild(textnode_el);
+	svg.appendChild(bg_el);
+	svg.appendChild(text_el);
 
 	return function(props){
 		svg.setAttribute("width",props.width);
@@ -173,19 +173,19 @@ var svg_el = (function(){
 		bg_el.setAttribute("width", props.width);
 		bg_el.setAttribute("height", props.height);
 		bg_el.setAttribute("fill", props.template.background);
-		text_el.setAttribute("x", props.width/2)
-		text_el.setAttribute("y", props.height/2)
-		textnode_el.nodeValue=props.text
+		text_el.setAttribute("x", props.width/2);
+		text_el.setAttribute("y", props.height/2);
+		textnode_el.nodeValue=props.text;
 		text_el.setAttribute("style", css_properties({
 		"fill": props.template.foreground,
 		"font-weight": "bold",
 		"font-size": props.text_height+"px",
 		"font-family":props.font,
 		"dominant-baseline":"central"
-		}))
+		}));
 		return serializer.serializeToString(svg)
 	}
-})()
+})();
 
 function css_properties(props){
 	var ret = [];
@@ -268,7 +268,7 @@ function draw_svg(args){
 		text_height:text_height, 
 		font:font, 
 		template:template
-	})
+	});
 	return "data:image/svg+xml;base64,"+btoa(unescape(encodeURIComponent(string)));
 }
 
@@ -334,7 +334,7 @@ function render(mode, el, holder, src) {
 			el.style.display = "block";
 		}
 		
-		set_initial_dimensions(el)
+		set_initial_dimensions(el);
 		
 		if (instance_config.use_fallback) {
 			el.style.backgroundColor = theme.background;
@@ -351,18 +351,18 @@ function dimension_check(el, callback) {
 		width: el.clientWidth
 	};
 	if (!dimensions.height && !dimensions.width) {
-		el.setAttribute("data-holder-invisible", true)
+		el.setAttribute("data-holder-invisible", true);
 		callback.call(this, el)
 	}
 	else{
-		el.removeAttribute("data-holder-invisible")
+		el.removeAttribute("data-holder-invisible");
 		return dimensions;
 	}
 }
 
 function set_initial_dimensions(el){
 	if(el.holder_data){
-		var dimensions = dimension_check(el, app.invisible_error_fn( set_initial_dimensions))
+		var dimensions = dimension_check(el, app.invisible_error_fn( set_initial_dimensions));
 		if(dimensions){
 			var holder = el.holder_data;
 			holder.initial_dimensions = dimensions;
@@ -370,9 +370,9 @@ function set_initial_dimensions(el){
 				fluid_height: holder.dimensions.height.slice(-1) == "%",
 				fluid_width: holder.dimensions.width.slice(-1) == "%",
 				mode: null
-			}
+			};
 			if(holder.fluid_data.fluid_width && !holder.fluid_data.fluid_height){
-				holder.fluid_data.mode = "width"
+				holder.fluid_data.mode = "width";
 				holder.fluid_data.ratio = holder.initial_dimensions.width / parseFloat(holder.dimensions.height)
 			}
 			else if(!holder.fluid_data.fluid_width && holder.fluid_data.fluid_height){
@@ -394,10 +394,10 @@ function resizable_update(element) {
 		if (!images.hasOwnProperty(i)) {
 			continue;
 		}
-		var el = images[i]
+		var el = images[i];
 		if (el.holder_data) {
 			var holder = el.holder_data;
-			var dimensions = dimension_check(el, app.invisible_error_fn( resizable_update))
+			var dimensions = dimension_check(el, app.invisible_error_fn( resizable_update));
 			if(dimensions){
 				if(holder.fluid){
 					if(holder.auto){
@@ -480,7 +480,7 @@ app.invisible_error_fn = function(fn){
 			throw new Error("Holder: invisible placeholder")
 		}
 	}
-}
+};
 
 app.add_theme = function (name, theme) {
 	name != null && theme != null && (settings.themes[name] = theme);
@@ -491,7 +491,7 @@ app.add_image = function (src, el) {
 	var node = selector(el);
 	if (node.length) {
 		for (var i = 0, l = node.length; i < l; i++) {
-			var img = document.createElement("img")
+			var img = document.createElement("img");
 			img.setAttribute("data-src", src);
 			node[i].appendChild(img);
 		}
@@ -501,7 +501,7 @@ app.add_image = function (src, el) {
 
 app.run = function (o) {
 
-	instance_config = extend({}, system_config)
+	instance_config = extend({}, system_config);
 	preempted = true;
 
 	var options = extend(settings, o),
@@ -619,10 +619,10 @@ if (typeof define === "function" && define.amd) {
 (function(){function t(t){this.message=t}var e="undefined"!=typeof exports?exports:this,r="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";t.prototype=Error(),t.prototype.name="InvalidCharacterError",e.btoa||(e.btoa=function(e){for(var o,n,a=0,i=r,c="";e.charAt(0|a)||(i="=",a%1);c+=i.charAt(63&o>>8-8*(a%1))){if(n=e.charCodeAt(a+=.75),n>255)throw new t("'btoa' failed");o=o<<8|n}return c}),e.atob||(e.atob=function(e){if(e=e.replace(/=+$/,""),1==e.length%4)throw new t("'atob' failed");for(var o,n,a=0,i=0,c="";n=e.charAt(i++);~n&&(o=a%4?64*o+n:n,a++%4)?c+=String.fromCharCode(255&o>>(6&-2*a)):0)n=r.indexOf(n);return c})})();
 
 //getElementsByClassName polyfill
-document.getElementsByClassName||(document.getElementsByClassName=function(e){var t=document,n,r,i,s=[];if(t.querySelectorAll)return t.querySelectorAll("."+e);if(t.evaluate){r=".//*[contains(concat(' ', @class, ' '), ' "+e+" ')]",n=t.evaluate(r,t,null,0,null);while(i=n.iterateNext())s.push(i)}else{n=t.getElementsByTagName("*"),r=new RegExp("(^|\\s)"+e+"(\\s|$)");for(i=0;i<n.length;i++)r.test(n[i].className)&&s.push(n[i])}return s})
+document.getElementsByClassName||(document.getElementsByClassName=function(e){var t=document,n,r,i,s=[];if(t.querySelectorAll)return t.querySelectorAll("."+e);if(t.evaluate){r=".//*[contains(concat(' ', @class, ' '), ' "+e+" ')]",n=t.evaluate(r,t,null,0,null);while(i=n.iterateNext())s.push(i)}else{n=t.getElementsByTagName("*"),r=new RegExp("(^|\\s)"+e+"(\\s|$)");for(i=0;i<n.length;i++)r.test(n[i].className)&&s.push(n[i])}return s});
 
 //getComputedStyle polyfill
-window.getComputedStyle||(window.getComputedStyle=function(e){return this.el=e,this.getPropertyValue=function(t){var n=/(\-([a-z]){1})/g;return t=="float"&&(t="styleFloat"),n.test(t)&&(t=t.replace(n,function(){return arguments[2].toUpperCase()})),e.currentStyle[t]?e.currentStyle[t]:null},this})
+window.getComputedStyle||(window.getComputedStyle=function(e){return this.el=e,this.getPropertyValue=function(t){var n=/(\-([a-z]){1})/g;return t=="float"&&(t="styleFloat"),n.test(t)&&(t=t.replace(n,function(){return arguments[2].toUpperCase()})),e.currentStyle[t]?e.currentStyle[t]:null},this});
 
 //http://javascript.nwbox.com/ContentLoaded by Diego Perini with modifications
 function contentLoaded(n,t){var l="complete",s="readystatechange",u=!1,h=u,c=!0,i=n.document,a=i.documentElement,e=i.addEventListener?"addEventListener":"attachEvent",v=i.addEventListener?"removeEventListener":"detachEvent",f=i.addEventListener?"":"on",r=function(e){(e.type!=s||i.readyState==l)&&((e.type=="load"?n:i)[v](f+e.type,r,u),!h&&(h=!0)&&t.call(n,null))},o=function(){try{a.doScroll("left")}catch(n){setTimeout(o,50);return}r("poll")};if(i.readyState==l)t.call(n,"lazy");else{if(i.createEventObject&&a.doScroll){try{c=!n.frameElement}catch(y){}c&&o()}i[e](f+"DOMContentLoaded",r,u),i[e](f+s,r,u),n[e](f+"load",r,u)}}
@@ -652,7 +652,7 @@ if (!Object.prototype.hasOwnProperty)
     Object.prototype.hasOwnProperty = function(prop) {
 		var proto = this.__proto__ || this.constructor.prototype;
 		return (prop in this) && (!(prop in proto) || proto[prop] !== this[prop]);
-	}
+	};
     /*jshint +W001, +W103 */
 
 })(Holder, window);

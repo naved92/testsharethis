@@ -1,81 +1,92 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load staticfiles %}
 <!DOCTYPE html>
 {% block title %}Update Info{% endblock %}
-{% block body_block %}        
-        
-        
-        
-        
+{% block body_block %}
 
-<div class="container">
-    <h1>Edit Profile</h1>
-  	<hr>
-	<div class="row">
-      <!-- left column -->
-        <!--
-      <div class="col-md-3">
-        <div class="text-center">
-          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-          <h6>Upload a different photo...</h6>
-          
-          <input class="form-control" type="file">
+
+
+
+
+    <div class="container">
+        <h1>Edit Profile</h1>
+        <hr>
+        <div class="row">
+            <!-- left column -->
+
+            <!--
+            jasney-bootstrap starts
+            -->
+
+            <!--
+            jasney-bootstrap ends
+            -->
+
+            <!-- edit form column -->
+            <div class="col-md-9 personal-info">
+
+
+                <h3>Personal info of <strong>{{ user.username }}</strong></h3>
+
+                <form class="form-horizontal" role="form" action="{% url 'updateinfo' %}" method="post"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Email:</label>
+
+                        <div class="col-lg-8">
+                            <input class="form-control" value="{{ user.email }}" type="text" name="email">
+                        </div>
+                    </div>
+                    <!--
+                   <div class="form-group">
+                     <label class="col-md-3 control-label">Password:</label>
+                     <div class="col-md-8">
+                       <input class="form-control" value="" type="password" name="passowrd1">
+                     </div>
+                   </div>
+                   <div class="form-group">
+                     <label class="col-md-3 control-label">Confirm password:</label>
+                     <div class="col-md-8">
+                       <input class="form-control" value="" type="password" name="password2">
+                     </div>
+                   </div>
+                   -->
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">About yourself:</label>
+
+                        <div class="col-lg-8">
+                            <input class="form-control" value="" type="text" name="aboutme"
+                                   placeholder="Write something about yourself">
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                                <h6>Upload a different photo...</h6>
+
+                                <input name="profile_photo" class="form-control" type="file">
+                                </input>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+
+                        <div class="col-md-8">
+                            <input class="btn btn-primary" value="Save Changes" type="submit" value="Post">
+                            </input>
+                            <span></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-      </div>
-        -->
-        <!--
-        jasney-bootstrap starts
-        -->
+    </div>
+    <hr>
 
-        <!--
-        jasney-bootstrap ends
-        -->
-
-      <!-- edit form column -->
-      <div class="col-md-9 personal-info">
-        <h3>Personal info of <strong>{{ user.username }}</strong></h3>
-        
-        <form class="form-horizontal" role="form" action="{% url 'updateinfo' %}" method="post">
-          {% csrf_token %}
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Email:</label>
-            <div class="col-lg-8">
-              <input class="form-control" value="{{ user.email }}" type="text" name="email">
-            </div>
-          </div>
-           <!--
-          <div class="form-group">
-            <label class="col-md-3 control-label">Password:</label>
-            <div class="col-md-8">
-              <input class="form-control" value="" type="password" name="passowrd1">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Confirm password:</label>
-            <div class="col-md-8">
-              <input class="form-control" value="" type="password" name="password2">
-            </div>
-          </div>
-          -->
-            <div class="form-group">
-            <label class="col-lg-3 control-label">About yourself:</label>
-            <div class="col-lg-8">
-              <input class="form-control" value="" type="text" name="aboutme" placeholder="Write something about yourself">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label"></label>
-            <div class="col-md-8">
-              <input class="btn btn-primary" value="Save Changes" type="submit">
-              <span></span>
-              <input class="btn btn-default" value="Cancel" type="reset">
-            </div>
-          </div>
-        </form>
-      </div>
-  </div>
-</div>
-<hr>
-    
-{% endblock%}
+{% endblock %}
     
