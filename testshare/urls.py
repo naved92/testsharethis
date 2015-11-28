@@ -12,4 +12,6 @@ urlpatterns = [
         url(r'^profile/(?P<user_name>\w+)/$', views.profile_by_name, name='profile_by_name'),
         url(r'^updateinfo/$', views.updateinfo, name='updateinfo'),
         url(r'^spread/(?P<post_id>[0-9]+)/$', views.spread, name='spread'),
+        url(r'^post/(?P<post_id>[0-9]+)/$', views.post, name='post'),
+
         ]

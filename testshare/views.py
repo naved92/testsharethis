@@ -430,7 +430,7 @@ def spread(request,post_id):
 
     newpost=Post()
     newpost.post_maker=UserProfile.objects.get(user=request.user)
-    newpost.post_text=" SPREADED FROM  "+spreadedpost.post_maker.user.username+" ::: "+spreadedpost.post_text
+    newpost.post_text=spreadedpost.post_text
     newpost.post_photo=spreadedpost.post_photo
     newpost.post_sharecount=0
     newpost.post_sharedfrom=spreadedpost
@@ -438,3 +438,9 @@ def spread(request,post_id):
 
     newpost.save()
     return HttpResponseRedirect(reverse('newsfeed'))
+
+@login_required(login_url='/testshare/')
+def post(request,post_id):
+    context=RequestContext(request)
+    post=Post.objects.get(id=post_id)
+    return render_to_response('post.html', {'post':post}, context)

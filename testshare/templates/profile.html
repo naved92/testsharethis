@@ -67,12 +67,26 @@
                                     <div class="post-comment">
 
                                         <div class="media-body">
-                                            <p>{{ post.post_info.post_text}}</p>
+                                            <p>{{ post.post_info.post_text}}
+                                            </p>
+                                            
+                                            <p>
+                                              {% if post.post_info.post_sharedfrom %}
+
+
+                                    via @
+                                    <a href="{% url 'profile_by_name' post.post_info.post_sharedfrom.post_maker.user.username %}">
+                                    {{ post.post_info.post_sharedfrom.post_maker.user.username }}
+                                    </a>
+
+                                    {% endif %}
+
+                                            </p>
                                              {% if post.post_info.post_photo %}
                                             <img src="{{ MEDIA_URL }}{{ post.post_info.post_photo }}" width="400"/>
                                             {% endif %}
                                             <ul class="nav navbar-nav post-nav">
-                                                <li><a href="#"><i class="fa fa-clock-o"></i>{{ post.post_info.post_time }}</a></li>
+                                                <li><a href="{% url 'post' post.post_info.id %}"><i class="fa fa-clock-o"></i>{{ post.post_info.post_time }}</a></li>
                                                 <li><a href="#"><i class="fa fa-globe"></i>{{ post.post_info.post_location   }}</a></li>
                                                 <li><a href="#"><i class="fa fa-comments"></i>{{ post.post_info.post_sharecount }} Spreads</a></li>
                                             </ul>

@@ -11,8 +11,7 @@
             <div class="main-slider">
                 <div class="slide-text" id="about_words">
                     <h1>Share where you are!!!</h1>
-                    <p >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed molestie ipsum sit amet erat posuere mollis. Ut sagittis tincidunt diam, nec efficitur nisi congue eget. Mauris dapibus lectus ante, nec mollis diam interdum nec. Aenean velit lacus, luctus suscipit ex quis, gravida rutrum eros. Mauris fermentum enim ipsum, ac consequat mi hendrerit vitae. Vestibulum imperdiet porttitor arcu, id accumsan nisl porttitor id. Fusce maximus sit amet quam non rhoncus. Fusce eget sem non ligula pulvinar vestibulum. Nulla at metus interdum, suscipit tortor et, tempus est. Proin laoreet pretium purus, eu imperdiet massa consectetur a. Donec quis tellus elit. Sed a lectus imperdiet nisl tincidunt congue. Nam eget ligula in elit varius tristique.</p>
-                     
+                    <p >{{ post.post_text }}</p>
                 </div>
                 <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house" alt="slider image">
                 <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">
@@ -26,4 +25,5 @@
         </div>
         <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
     </section>
-    {% endblock%}
+
+{% endblock%}

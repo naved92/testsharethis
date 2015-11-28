@@ -102,7 +102,7 @@
 
                                     </div>
                                     <li>
-                                        <a href="#">
+                                        <a href="{% url 'post' post.id %}" >
                                             <i class="fa fa-clock-o">
                                                 {{ post.post_time }}
 
@@ -128,11 +128,20 @@
                                     <blockquote>
                                     <span>
                                         {{ post.post_text }}
-
+                                        {{ post.id }}
                                     </span>
 
                                     </blockquote>
 
+                                    {% if post.post_sharedfrom %}
+
+                                    <h3>
+                                    via @
+                                    <a href="{% url 'profile_by_name' post.post_sharedfrom.post_maker.user.username %}">
+                                    {{ post.post_sharedfrom.post_maker.user.username }}
+                                    </a>
+                                    </h3>
+                                    {% endif %}
 
                                     <div>
                                         <br>
