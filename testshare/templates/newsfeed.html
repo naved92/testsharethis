@@ -83,7 +83,9 @@
                                     <li>
                                         <i class="fa fa-user">
 
-                                            {{ post.post_maker.user.username }}
+                                          <a href="{% url 'profile' post.post_maker.user.id %}">
+                                          {{ post.post_maker.user.username }}
+                                          </a>
 
                                         </i>
 
