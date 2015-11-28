@@ -13,5 +13,8 @@ urlpatterns = [
         url(r'^updateinfo/$', views.updateinfo, name='updateinfo'),
         url(r'^spread/(?P<post_id>[0-9]+)/$', views.spread, name='spread'),
         url(r'^post/(?P<post_id>[0-9]+)/$', views.post, name='post'),
+        url(r'^block/(?P<user_id>[0-9]+)/$', views.block, name='block'),
+        url(r'^unblock/(?P<user_id>[0-9]+)/$', views.unblock, name='unblock'),
+
 
         ]

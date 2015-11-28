@@ -128,7 +128,7 @@
                                     <blockquote>
                                     <span>
                                         {{ post.post_text }}
-                                        {{ post.id }}
+
                                     </span>
 
                                     </blockquote>
@@ -169,7 +169,10 @@
                                         </li>
 
                                         <li><a href="{% url 'spread' post.id %}  "><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                        <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
+                                        {% ifnotequal post.post_maker.user request.user %}
+                                        <li><a href="{% url 'block' post.post_maker.user.id %}"><i class="fa fa-lock"></i>Block </a></li>
+
+                                        {% endifnotequal %}
 
                                     </ul>
 

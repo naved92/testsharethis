@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect,HttpRequest
 from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
-from testshare.models import User, UserProfile, Post,Profileposts
+from testshare.models import User, UserProfile, Post,Profileposts,Block
 from testshare.forms import RegistrationForm,UpdateProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
@@ -269,7 +269,13 @@ def profile(request,user_id):
 
     #zipped=zip(posts,randlist)
     #print(zipped)
-    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username}, context)
+    blocks=[]
+    print(request.user.id ,int(user_id))
+    if request.user.id == int(user_id):
+        print("yes")
+        blocks=Block.objects.filter(blocker=username)
+    print(blocks)
+    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username,'blocks':blocks}, context)
 
 @login_required(login_url='/testshare/')
 def profile_by_name(request,user_name):
@@ -310,7 +316,14 @@ def profile_by_name(request,user_name):
 
     #zipped=zip(posts,randlist)
     #print(zipped)
-    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username}, context)
+    blocks=[]
+    print(request.user.username ,str(user_name))
+    if request.user.username == str(user_name):
+        print("yes")
+        blocks=Block.objects.filter(blocker=username)
+    print(blocks)
+
+    return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username,'blocks':blocks}, context)
 
 def about(request):
     # Request the context of the request.
@@ -444,3 +457,24 @@ def post(request,post_id):
     context=RequestContext(request)
     post=Post.objects.get(id=post_id)
     return render_to_response('post.html', {'post':post}, context)
+
+
+@login_required(login_url='/testshare/')
+def block(request,user_id):
+    context=RequestContext(request)
+    who_blocked=UserProfile.objects.get(user=request.user)
+    who_got_blocked=UserProfile.objects.get(user=User.objects.get(id=user_id))
+    block_when=datetime.now()
+    block= Block(blocker=who_blocked,blocked=who_got_blocked,block_time=block_when)
+    block.save()
+    return HttpResponseRedirect(reverse('profile',kwargs={'user_id':request.user.id}))
+
+@login_required(login_url='/testshare/')
+def unblock(request,user_id):
+    context=RequestContext(request)
+    who_blocked=UserProfile.objects.get(user=request.user)
+    who_got_blocked=UserProfile.objects.get(user=User.objects.get(id=user_id))
+
+    blockrecord= Block.objects.filter(blocker=who_blocked,blocked=who_got_blocked)
+    blockrecord.delete()
+    return HttpResponseRedirect(reverse('profile',kwargs={'user_id':request.user.id}))

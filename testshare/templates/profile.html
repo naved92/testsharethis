@@ -24,6 +24,11 @@
                     <h1>{{ userprofile.user.username }}</h1>
                     <h4>{{ userprofile.user.email }}</h4>
                     <h6>{{ userprofile.about_me }}</h6>
+                                                                    {% ifnotequal userprofile.user request.user %}
+                                        <li><a href="{% url 'block' userprofile.user.id %}"><i class="fa fa-lock"></i>Block </a></li>
+
+                                        {% endifnotequal %}
+
                 <span> </span>
                 </div>
             </div>
@@ -69,7 +74,7 @@
                                         <div class="media-body">
                                             <p>{{ post.post_info.post_text}}
                                             </p>
-                                            
+
                                             <p>
                                               {% if post.post_info.post_sharedfrom %}
 
@@ -96,7 +101,9 @@
                                             </div>
                                             <ul class="nav navbar-nav post-nav">
                                                 <li><a href="#"><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                                <li><a href="#"><i class="fa fa-lock"></i>Block </a></li>
+
+
+
                                             </ul>
                                         </div>
                                     </div>
@@ -110,8 +117,28 @@
                 </div>
             {% endfor %}
 
+            {% ifequal userprofile.user request.user %}
+            <div class="col-md-3 pull-right">
+
+                    <ul>
+                        <h3> Blocked List</h3>
+
+                        {% for block in blocks %}
+                        <li> {{ block.blocked.user.username }}   <a href="{% url 'unblock' block.blocked.user.id %}">unblock</a></li>
+                        {% endfor %}
+
+
+                       </ul>
+
+
+            </div>
+
+            {% endifequal %}
+
+            </div>
         </div>
-        </div>
+
+
     </section>
 {% endblock %}
     
