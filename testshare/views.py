@@ -223,7 +223,7 @@ def updateinfo(request):
             userprofile.picture= uploaded_file
 
         userprofile.save()
-        return HttpResponseRedirect(reverse('profile'))
+        return HttpResponseRedirect(reverse('profile',kwargs={'user_id':request.user.id}))
     # Return a rendered response to send to the client.
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
