@@ -499,7 +499,14 @@ def spread(request,post_id):
     spreadedpost.post_sharecount+=1
     spreadedpost.save()
 
+    req_loc_dict=get_location(get_ip_address(request))
+    if str(req_loc_dict['region_name'])== '':
+        req_loc_dict['region_name']=req_loc_dict['country_name']
+
+    req_loc= Location(location_name=str(req_loc_dict['region_name']),location_lat=req_loc_dict['latitude'],location_long=req_loc_dict['longitude'])
+
     newpost=Post()
+    newpost.post_location=req_loc
     newpost.post_maker=UserProfile.objects.get(user=request.user)
     newpost.post_text=spreadedpost.post_text
     newpost.post_photo=spreadedpost.post_photo
