@@ -507,6 +507,7 @@ def spread(request,post_id):
     req_loc.save()
     newpost=Post()
     newpost.post_location=req_loc
+    print(newpost.post_location.location_name)
     newpost.post_maker=UserProfile.objects.get(user=request.user)
     newpost.post_text=spreadedpost.post_text
     newpost.post_photo=spreadedpost.post_photo
