@@ -92,7 +92,7 @@
                                             {% endif %}
                                             <ul class="nav navbar-nav post-nav">
                                                 <li><a href="{% url 'post' post.post_info.id %}"><i class="fa fa-clock-o"></i>{{ post.post_info.post_time }}</a></li>
-                                                <li><a href="#"><i class="fa fa-globe"></i>{{ post.post_info.post_location   }}</a></li>
+                                                <li><a href="#"><i class="fa fa-globe"></i>{{ post.post_info.post_location.location_name   }}</a></li>
                                                 <li><a href="#"><i class="fa fa-comments"></i>{{ post.post_info.post_sharecount }} Spreads</a></li>
                                             </ul>
 

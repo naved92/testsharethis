@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect,HttpRequest
 from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
-from testshare.models import User, UserProfile, Post,Profileposts,Block
+from testshare.models import User, UserProfile, Post,Profileposts,Block,Location
 from testshare.forms import RegistrationForm,UpdateProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
@@ -19,7 +19,15 @@ from contextlib import closing
 import json
 from ipware.ip import get_ip
 import math
+import sys
+import requests
 from django.db.models import Q
+def get_ip_add():
+	r = requests.get(r'http://jsonip.com')
+	ip= r.json()['ip']
+	print 'Your IP is', ip
+	return ip
+
 def get_location(ip):
     """
     determines location using http:freegeoip.net API
@@ -207,17 +215,17 @@ def updateinfo(request):
     # Note the key boldmessage is the same as {{ boldmessage }} in the template!
 
     if request.method=='POST':
-        print(request.POST.get('email'))
-        print(request.POST.get('aboutme'))
+        #print(request.POST.get('email'))
+        #print(request.POST.get('aboutme'))
         userprofile = UserProfile.objects.get(user=request.user)
         userprofile.about_me=request.POST.get('aboutme')
         userprofile.user.email=request.POST.get('email')
 
         if request.FILES.get('profile_photo'):
             uploaded_file = request.FILES.get('profile_photo')
-            print(uploaded_file.name)
+            #print(uploaded_file.name)
             parts=uploaded_file.name.split(".")
-            print(parts)
+            #print(parts)
             joinstring=""+request.user.username+'_'+'.'+parts[len(parts)-1]
             uploaded_file.name = joinstring
             userprofile.picture= uploaded_file
@@ -266,19 +274,19 @@ def profile(request,user_id):
             rightPost = cgi.escape(rightPost,quote=True)
             profpost.alignment = rightPost
         profilepostlist.append(profpost)
-        print(profpost.alignment)
-    print(profilepostlist)
-    print(username.about_me)
+        #print(profpost.alignment)
+    #print(profilepostlist)
+    #print(username.about_me)
     #randlist=[int(randint(0,1)) for i in xrange(post_count)]
 
     #zipped=zip(posts,randlist)
     #print(zipped)
     blocks=[]
-    print(request.user.id ,int(user_id))
+    #print(request.user.id ,int(user_id))
     if request.user.id == int(user_id):
-        print("yes")
+        #print("yes")
         blocks=Block.objects.filter(blocker=username)
-    print(blocks)
+    #print(blocks)
     return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username,'blocks':blocks}, context)
 
 @login_required(login_url='/testshare/')
@@ -318,19 +326,19 @@ def profile_by_name(request,user_name):
             rightPost = cgi.escape(rightPost,quote=True)
             profpost.alignment = rightPost
         profilepostlist.append(profpost)
-        print(profpost.alignment)
-    print(profilepostlist)
-    print(username.about_me)
+     #   print(profpost.alignment)
+    #print(profilepostlist)
+    #print(username.about_me)
     #randlist=[int(randint(0,1)) for i in xrange(post_count)]
 
     #zipped=zip(posts,randlist)
     #print(zipped)
     blocks=[]
-    print(request.user.username ,str(user_name))
+    #print(request.user.username ,str(user_name))
     if request.user.username == str(user_name):
-        print("yes")
+     #   print("yes")
         blocks=Block.objects.filter(blocker=username)
-    print(blocks)
+    #print(blocks)
 
     return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username,'blocks':blocks}, context)
 
@@ -355,7 +363,7 @@ def register(request):
     # context = RequestContext(request)
 
     # return render_to_response('index.html',{ } ,context)
-    print('register called')
+    #print('register called')
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -366,7 +374,7 @@ def register(request):
             )
             userprofile=UserProfile(user=user_temp)
             userprofile.save()
-            print(userprofile.user.username)
+        #    print(userprofile.user.username)
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
             #print(request.POST.get('next'))
@@ -395,12 +403,12 @@ def user_login(request):
         password = request.POST['password']
 
         user = authenticate(username=username, password=password)
-        print(username)
-        print(password)
+        #print(username)
+        #print(password)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                print(request.POST.get('next'))
+         #       print(request.POST.get('next'))
                 if (request.POST.get('next') == ''):
                     return redirect('/testshare/newsfeed/')
                 return redirect(request.POST.get('next'))
@@ -412,21 +420,25 @@ def user_login(request):
 @login_required(login_url='/testshare/')
 def newsfeed(request):
     context = RequestContext(request)
-    print(get_location(''))
+    #print(get_location(''))
     posts=Post.objects.all()
     allblocklist=[]
     allblocklist=find_blocks(request)
     posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
     #posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
     if request.POST:
-        print(request.POST.get('status'))
+     #   print(request.POST.get('status'))
+        #get random location
+        location=get_random_location()
+        post_location=location
+        #print(post_location.location_name)
         post_maker=UserProfile.objects.get(user=request.user)
         post_text=request.POST.get('status')
         post_time=datetime.now()
-        post=Post(post_maker=post_maker,post_text=post_text,post_time=post_time,post_sharecount=0)
+        post=Post(post_maker=post_maker,post_text=post_text,post_time=post_time,post_sharecount=0,post_location=post_location)
         if request.FILES.get('post_photo'):
             uploaded_file = request.FILES.get('post_photo')
-            print(uploaded_file.name)
+      #      print(uploaded_file.name)
             parts=uploaded_file.name.split(".")
             #print(parts)
             joinstring=""+post_maker.user.username+'_'+str(post_time)+'.'+parts[len(parts)-1]
@@ -503,7 +515,7 @@ def unblock(request,user_id):
 @login_required(login_url='/testshare/')
 def find_blocks(request):
     request_user_profile=UserProfile.objects.get(user=request.user)
-    print(request_user_profile.user.username)
+    #print(request_user_profile.user.username)
 
     not_block_list=[]
     not_block_list_1=[]
@@ -530,3 +542,19 @@ def nopermission(request):
     # We make use of the shortcut function to make our lives easier.
     # Note that the first parameter is the template we wish to use.
     return render_to_response('nopermission.html', {}, context)
+
+
+def get_random_ip():
+
+    sitelist=['google.com','youtube.com','goal.com','backpack.com']
+    choice = int(randint(0,len(sitelist)-1))
+
+    return sitelist[choice];
+
+def get_random_location():
+
+    location_dict= get_location(get_random_ip())
+    print(location_dict)
+    location= Location(location_name=str(location_dict['region_name']),location_lat=location_dict['latitude'],location_long=location_dict['longitude'])
+    location.save()
+    return location
