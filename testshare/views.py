@@ -81,7 +81,7 @@ def get_ip_address(request):
     """
 
     ip_address = get_ip(request)
-    if ip is not None:
+    if ip_address is not None:
         print "we have an IP address for user"
     else:
         print "we don't have an IP address for user"
@@ -419,8 +419,8 @@ def user_login(request):
 
 @login_required(login_url='/testshare/')
 def newsfeed(request):
-    context = RequestContext(request)
     #print(get_location(''))
+    """
     req_loc=get_random_location()
     print('The request location data is')
     print('Location name ',req_loc.location_name,' longitude ',req_loc.location_long,' latitude ',req_loc.location_lat,' ')
@@ -428,10 +428,24 @@ def newsfeed(request):
     maxlat=(req_loc.location_lat)+10.00
     minlong=(req_loc.location_long)-10.00
     maxlong=(req_loc.location_long)+10.00
+
+
+    """
+    context = RequestContext(request)
+    #remote host part
+    req_loc_dict=get_location(get_ip_address(request))
+    if str(req_loc_dict['region_name'])== '':
+        req_loc_dict['region_name']=req_loc_dict['country_name']
+
+    req_loc= Location(location_name=str(req_loc_dict['region_name']),location_lat=req_loc_dict['latitude'],location_long=req_loc_dict['longitude'])
+    proximity_range=get_proximity_range(req_loc_dict,10,10)
+    minlat=proximity_range['min_lat']
+    maxlat=proximity_range['max_lat']
+    minlong=proximity_range['min_long']
+    maxlong=proximity_range['max_long']
     place=req_loc.location_name
     place_lat=req_loc.location_lat
     place_long=req_loc.location_long
-
     print('minlat ',minlat,'maxlat',maxlat,'minlong',minlong,'maxlong ',maxlong)
     posts=Post.objects.all()
     allblocklist=[]
@@ -447,8 +461,9 @@ def newsfeed(request):
     if request.POST:
      #   print(request.POST.get('status'))
         #get random location
-        location=req_loc
-        post_location=location
+        req_loc.save()
+
+        post_location=req_loc
         #print(post_location.location_name)
         post_maker=UserProfile.objects.get(user=request.user)
         post_text=request.POST.get('status')
@@ -587,3 +602,4 @@ def is_near(latitude,longitude):
     range_loc.append(longitude+10.00)
     range_loc.append(longitude-10.00)
     return range_loc
+
