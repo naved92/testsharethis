@@ -421,15 +421,17 @@ def user_login(request):
 def newsfeed(request):
     context = RequestContext(request)
     #print(get_location(''))
+    req_loc=get_random_location()
     posts=Post.objects.all()
     allblocklist=[]
     allblocklist=find_blocks(request)
-    posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
+    posts=Post.objects.filter().exclude(Q(post_maker__in=allblocklist))
+    #|Q(post_location__location_lat__lt= req_loc.location_lat,post_location__location_long__lt= req_loc.location_long))
     #posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
     if request.POST:
      #   print(request.POST.get('status'))
         #get random location
-        location=get_random_location()
+        location=req_loc
         post_location=location
         #print(post_location.location_name)
         post_maker=UserProfile.objects.get(user=request.user)
