@@ -504,7 +504,7 @@ def spread(request,post_id):
         req_loc_dict['region_name']=req_loc_dict['country_name']
 
     req_loc= Location(location_name=str(req_loc_dict['region_name']),location_lat=req_loc_dict['latitude'],location_long=req_loc_dict['longitude'])
-
+    req_loc.save()
     newpost=Post()
     newpost.post_location=req_loc
     newpost.post_maker=UserProfile.objects.get(user=request.user)
