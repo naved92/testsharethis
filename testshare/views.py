@@ -422,12 +422,25 @@ def newsfeed(request):
     context = RequestContext(request)
     #print(get_location(''))
     req_loc=get_random_location()
+    print('The request location data is')
+    print('Location name ',req_loc.location_name,' longitude ',req_loc.location_long,' latitude ',req_loc.location_lat,' ')
+    minlat=(req_loc.location_lat)-10.00
+    maxlat=(req_loc.location_lat)+10.00
+    minlong=(req_loc.location_long)-10.00
+    maxlong=(req_loc.location_long)+10.00
+
+    print('minlat ',minlat,'maxlat',maxlat,'minlong',minlong,'maxlong ',maxlong)
     posts=Post.objects.all()
     allblocklist=[]
     allblocklist=find_blocks(request)
-    posts=Post.objects.filter().exclude(Q(post_maker__in=allblocklist))
+    #loc_range=is_near(req_loc.location_lat,req_loc.location_long)
+    #print(loc_range)
+    #posts=Post.objects.filter(post_location__location_lat__lte=loc_range[0],post_location__location_lat__gte=loc_range[1],post_location__location_long__lte=loc_range[2],post_location__location_long__gte=loc_range[3]).exclude(Q(post_maker__in=allblocklist))
     #|Q(post_location__location_lat__lt= req_loc.location_lat,post_location__location_long__lt= req_loc.location_long))
     #posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
+#    posts=Post.objects.filter(post_location__location_lat__lte=req_loc.location_lat, post_location__location_long__lte=req_loc.location_long).exclude(Q(post_maker__in=allblocklist))
+    posts=Post.objects.filter(post_location__location_lat__lte=maxlat,post_location__location_lat__gte=minlat, post_location__location_long__lte=maxlong,post_location__location_long__gte=minlong).exclude(Q(post_maker__in=allblocklist))
+
     if request.POST:
      #   print(request.POST.get('status'))
         #get random location
@@ -557,6 +570,17 @@ def get_random_location():
 
     location_dict= get_location(get_random_ip())
     print(location_dict)
+    if str(location_dict['region_name'])== '':
+        location_dict['region_name']=location_dict['country_name']
+
     location= Location(location_name=str(location_dict['region_name']),location_lat=location_dict['latitude'],location_long=location_dict['longitude'])
     location.save()
     return location
+
+def is_near(latitude,longitude):
+    range_loc=[]
+    range_loc.append(latitude+10.00)
+    range_loc.append(latitude-10.00)
+    range_loc.append(longitude+10.00)
+    range_loc.append(longitude-10.00)
+    return range_loc
