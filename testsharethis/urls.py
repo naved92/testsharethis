@@ -20,6 +20,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^/', include('testshare.urls''))
     url(r'^admin/', include(admin.site.urls)),
     url(r'^testshare/', include('testshare.urls')),
 
