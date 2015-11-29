@@ -1,0 +1,133 @@
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+[29/Nov/2015 00:58:03] "GET /testshare/ HTTP/1.1" 200 12377
+[29/Nov/2015 00:58:03] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 01:17:25] "GET / HTTP/1.1" 404 2153
+[29/Nov/2015 01:17:26] "GET /favicon.ico HTTP/1.1" 404 2186
+[29/Nov/2015 02:50:28] "GET http://51.254.206.142/httptest.php HTTP/1.1" 404 1700
+[29/Nov/2015 03:21:31] "CONNECT 126mx01.mxmail.netease.com:25 HTTP/1.0" 404 1695
+[29/Nov/2015 03:25:33] "GET /testshare/newsfeed/ HTTP/1.1" 200 20403
+[29/Nov/2015 03:25:34] "GET /static/css/bootstrap.min.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/css/font-awesome.min.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/css/main.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/css/lightbox.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/jquery.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/main.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/lightbox.min.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/wow.min.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/logreg.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/bootstrap.min.js HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/css/animate.min.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:35] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:25:36] "GET /static/css/statusupdate.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:36] "GET /static/css/jasny-bootstrap.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:36] "GET /static/css/responsive.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:36] "GET /static/css/round-about.css HTTP/1.1" 304 0
+[29/Nov/2015 03:25:37] "GET /static/images/logo.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:37] "GET /static/images/home/under.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:37] "GET /media/post_images/farabi_2015-11-28_111818.599528.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:37] "GET /static/css/arrow.png HTTP/1.1" 404 1657
+[29/Nov/2015 03:25:37] "GET /static/images/lightbox/close.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:37] "GET /static/images/lightbox/next.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:38] "GET /static/images/home/footer.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:38] "GET /static/images/lightbox/loading.gif HTTP/1.1" 304 0
+[29/Nov/2015 03:25:39] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:25:40] "GET /static/images/lightbox/prev.png HTTP/1.1" 304 0
+[29/Nov/2015 03:25:40] "GET /favicon.ico HTTP/1.1" 404 2186
+[29/Nov/2015 03:25:41] "GET /favicon.ico HTTP/1.1" 404 2186
+[29/Nov/2015 03:25:41] "GET /testshare/newsfeed/ HTTP/1.1" 200 20403
+[29/Nov/2015 03:25:42] "GET /static/css/arrow.png HTTP/1.1" 404 1657
+[29/Nov/2015 03:25:42] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:34:06] "GET /testshare/newsfeed/ HTTP/1.1" 200 20403
+[29/Nov/2015 03:34:07] "GET /static/css/arrow.png HTTP/1.1" 404 1657
+[29/Nov/2015 03:35:02] "GET / HTTP/1.1" 404 2153
+[29/Nov/2015 03:35:08] "GET /testshare/ HTTP/1.1" 302 0
+[29/Nov/2015 03:35:09] "GET /testshare/newsfeed/ HTTP/1.1" 200 20403
+[29/Nov/2015 03:35:10] "GET /static/css/arrow.png HTTP/1.1" 404 1657
+[29/Nov/2015 03:35:13] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:35:19] "GET /testshare/updateinfo/ HTTP/1.1" 200 8648
+[29/Nov/2015 03:35:20] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:35:21] "GET /testshare/updateinfo/%7B%%20static%20'images/ico/favicon.ico HTTP/1.1" 404 4345
+Performing system checks...
+
+November 29, 2015 - 00:54:11
+Django version 1.8.7, using settings 'testsharethis.settings'
+Starting development server at http://188.166.93.234:8080/
+Quit the server with CONTROL-C.
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+{u'city': u'Amsterdam', u'region_code': u'NH', u'region_name': u'North Holland', u'ip': u'188.166.93.234', u'time_zone': u'Europe/Amsterdam', u'longitude': 4.8897, u'metro_code': 0, u'latitude': 52.374, u'country_code': u'NL', u'country_name': u'Netherlands', u'zip_code': u'1000'}
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+[29/Nov/2015 03:38:49] "GET /testshare/updateinfo/ HTTP/1.1" 302 0
+[29/Nov/2015 03:38:49] "GET /testshare/?next=/testshare/updateinfo/ HTTP/1.1" 200 12421
+[29/Nov/2015 03:38:50] "GET /static/images/home/slider/slide1/house.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider/slide1/circle1.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider/slide1/cloud2.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider/slide1/cloud3.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider/slide1/cloud1.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/aboutus/n.jpg HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/aboutus/f.jpg HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/cycle.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider/slide1/sun.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:51] "GET /static/images/home/slider-bg.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:52] "GET /static/images/home/slider/slide1/circle2.png HTTP/1.1" 304 0
+[29/Nov/2015 03:38:52] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:39:00] "POST /testshare/login/ HTTP/1.1" 302 0
+[29/Nov/2015 03:39:00] "GET /testshare/updateinfo/ HTTP/1.1" 200 8648
+[29/Nov/2015 03:39:01] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:39:08] "GET /testshare/newsfeed/ HTTP/1.1" 200 16762
+[29/Nov/2015 03:39:10] "GET /static/css/arrow.png HTTP/1.1" 404 1657
+[29/Nov/2015 03:39:10] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:39:18] "GET /testshare/profile/34/ HTTP/1.1" 200 10235
+[29/Nov/2015 03:39:19] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:39:19] "GET /testshare/profile/34/%7B%%20static%20'images/ico/favicon.ico HTTP/1.1" 404 4955
+[29/Nov/2015 03:39:19] "GET /static/images/home/tour-bg.png HTTP/1.1" 200 17691
+[29/Nov/2015 03:39:19] "GET /static/images/home/tour-icon1.png HTTP/1.1" 200 10612
+[29/Nov/2015 03:39:19] "GET /static/images/blog/left.png HTTP/1.1" 200 1745
+[29/Nov/2015 03:39:20] "GET /media/profile_images/naved_.jpg HTTP/1.1" 200 348346
+[29/Nov/2015 03:39:22] "GET /testshare/unblock/33/ HTTP/1.1" 302 0
+[29/Nov/2015 03:39:23] "GET /testshare/unblock/33/ HTTP/1.1" 302 0
+[29/Nov/2015 03:39:23] "GET /testshare/profile/34/ HTTP/1.1" 200 10122
+[29/Nov/2015 03:39:24] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+[29/Nov/2015 03:39:25] "GET /media/profile_images/naved_.jpg HTTP/1.1" 200 348346
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+Error: That port is already in use.
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+[29/Nov/2015 03:44:02] "GET /testshare/updateinfo/ HTTP/1.1" 200 8648
+[29/Nov/2015 03:44:03] "GET /static/js/jasney-bootstrap.js HTTP/1.1" 404 1684
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
+System check identified some issues:
+
+WARNINGS:
+?: (1_8.W001) The standalone TEMPLATE_* settings were deprecated in Django 1.8 and the TEMPLATES dictionary takes precedence. You must put the values of the following settings into your default TEMPLATES dict: TEMPLATE_CONTEXT_PROCESSORS.
+
+System check identified 1 issue (0 silenced).
