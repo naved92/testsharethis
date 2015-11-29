@@ -19,7 +19,7 @@ from contextlib import closing
 import json
 from ipware.ip import get_ip
 import math
-
+from django.db.models import Q
 def get_location(ip):
     """
     determines location using http:freegeoip.net API
@@ -237,7 +237,11 @@ def profile(request,user_id):
     context = RequestContext(request)
     #username = UserProfile.objects.get(user=request.user)
     username = UserProfile.objects.get(user=User.objects.get(id=user_id))
-
+    requested_user_prof=UserProfile.objects.get(user=request.user)
+    block_possible_1=Block.objects.filter(blocker=username,blocked=requested_user_prof)
+    block_possible_2=Block.objects.filter(blocked=username,blocker=requested_user_prof)
+    if len(block_possible_1)+len(block_possible_2)>0:
+        return  HttpResponseRedirect(reverse('nopermission'))
     posts = Post.objects.filter(post_maker=username)
     today = datetime.now()
     toplabel = today.strftime('%B')
@@ -284,6 +288,11 @@ def profile_by_name(request,user_name):
     context = RequestContext(request)
     #username = UserProfile.objects.get(user=request.user)
     username = UserProfile.objects.get(user=User.objects.get(username=user_name))
+    requested_user_prof=UserProfile.objects.get(user=request.user)
+    block_possible_1=Block.objects.filter(blocker=username,blocked=requested_user_prof)
+    block_possible_2=Block.objects.filter(blocked=username,blocker=requested_user_prof)
+    if len(block_possible_1)+len(block_possible_2)>0:
+        return  HttpResponseRedirect(reverse('nopermission'))
 
     posts = Post.objects.filter(post_maker=username)
     today = datetime.now()
@@ -405,6 +414,10 @@ def newsfeed(request):
     context = RequestContext(request)
     print(get_location(''))
     posts=Post.objects.all()
+    allblocklist=[]
+    allblocklist=find_blocks(request)
+    posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
+    #posts=Post.objects.exclude(Q(post_maker__in=allblocklist))
     if request.POST:
         print(request.POST.get('status'))
         post_maker=UserProfile.objects.get(user=request.user)
@@ -456,6 +469,14 @@ def spread(request,post_id):
 def post(request,post_id):
     context=RequestContext(request)
     post=Post.objects.get(id=post_id)
+
+    username=post.post_maker
+    requested_user_prof=UserProfile.objects.get(user=request.user)
+    block_possible_1=Block.objects.filter(blocker=username,blocked=requested_user_prof)
+    block_possible_2=Block.objects.filter(blocked=username,blocker=requested_user_prof)
+    if len(block_possible_1)+len(block_possible_2)>0:
+        return  HttpResponseRedirect(reverse('nopermission'))
+
     return render_to_response('post.html', {'post':post}, context)
 
 
@@ -478,3 +499,34 @@ def unblock(request,user_id):
     blockrecord= Block.objects.filter(blocker=who_blocked,blocked=who_got_blocked)
     blockrecord.delete()
     return HttpResponseRedirect(reverse('profile',kwargs={'user_id':request.user.id}))
+
+@login_required(login_url='/testshare/')
+def find_blocks(request):
+    request_user_profile=UserProfile.objects.get(user=request.user)
+    print(request_user_profile.user.username)
+
+    not_block_list=[]
+    not_block_list_1=[]
+    not_block_list_2=[]
+
+    temp_block_list_1=Block.objects.filter(Q(blocker=request_user_profile)).values_list('blocked',flat=True)
+    temp_block_list_2=Block.objects.filter(Q(blocked=request_user_profile)).values_list('blocker',flat=True)
+    not_block_list_1.extend(temp_block_list_1)
+    not_block_list_2.extend(temp_block_list_2)
+
+    not_block_list=not_block_list_1+not_block_list_2
+    return not_block_list
+
+def nopermission(request):
+       # Request the context of the request.
+    # The context contains information such as the client's machine details, for example.
+    context = RequestContext(request)
+
+    # Construct a dictionary to pass to the template engine as its context.
+    # Note the key boldmessage is the same as {{ boldmessage }} in the template!
+
+
+    # Return a rendered response to send to the client.
+    # We make use of the shortcut function to make our lives easier.
+    # Note that the first parameter is the template we wish to use.
+    return render_to_response('nopermission.html', {}, context)
