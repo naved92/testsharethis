@@ -428,6 +428,9 @@ def newsfeed(request):
     maxlat=(req_loc.location_lat)+10.00
     minlong=(req_loc.location_long)-10.00
     maxlong=(req_loc.location_long)+10.00
+    place=req_loc.location_name
+    place_lat=req_loc.location_lat
+    place_long=req_loc.location_long
 
     print('minlat ',minlat,'maxlat',maxlat,'minlong',minlong,'maxlong ',maxlong)
     posts=Post.objects.all()
@@ -462,7 +465,7 @@ def newsfeed(request):
 
         post.save()
 
-    return render_to_response('newsfeed.html', {'posts':posts}, context)
+    return render_to_response('newsfeed.html', {'posts':posts,'place':place,'place_lat':place_lat,'place_long':place_long}, context)
 
 
 # Use the login_required() decorator to ensure only those logged in can access the view.

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="62a8bf13-42b0-424b-88b3-f3da9df8c30a" name="Default" comment="model class change,newsfeed page change">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testshare/templates/newsfeed.html" afterPath="$PROJECT_DIR$/testshare/templates/newsfeed.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testshare/views.py" afterPath="$PROJECT_DIR$/testshare/views.py" />
     </list>
     <ignored path="testsharethis.iws" />
@@ -31,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testshare/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8907767">
-              <caret line="441" column="190" selection-start-line="441" selection-start-column="190" selection-end-line="441" selection-end-column="190" />
+            <state vertical-scroll-proportion="-8.342857">
+              <caret line="467" column="109" selection-start-line="467" selection-start-column="109" selection-end-line="467" selection-end-column="109" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -117,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="newsfeed.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="newsfeed.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testshare/templates/newsfeed.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.440678">
-              <caret line="116" column="74" selection-start-line="116" selection-start-column="74" selection-end-line="116" selection-end-column="74" />
+            <state vertical-scroll-proportion="0.3814433">
+              <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -177,8 +178,8 @@
         <option value="$PROJECT_DIR$/testshare/templates/nopermission.html" />
         <option value="$PROJECT_DIR$/testshare/templates/post.html" />
         <option value="$PROJECT_DIR$/testshare/templates/profile.html" />
-        <option value="$PROJECT_DIR$/testshare/templates/newsfeed.html" />
         <option value="$PROJECT_DIR$/testshare/views.py" />
+        <option value="$PROJECT_DIR$/testshare/templates/newsfeed.html" />
       </list>
     </option>
   </component>
@@ -987,14 +988,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testshare/templates/newsfeed.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.440678">
-          <caret line="116" column="74" selection-start-line="116" selection-start-column="74" selection-end-line="116" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testshare/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1007,11 +1000,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/testshare/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8907767">
-          <caret line="441" column="190" selection-start-line="441" selection-start-column="190" selection-end-line="441" selection-end-column="190" />
+        <state vertical-scroll-proportion="-8.342857">
+          <caret line="467" column="109" selection-start-line="467" selection-start-column="109" selection-end-line="467" selection-end-column="109" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testshare/templates/newsfeed.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3814433">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+          <folding />
         </state>
       </provider>
     </entry>
