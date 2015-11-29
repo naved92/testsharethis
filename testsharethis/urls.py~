@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.conf.urls.static import static
-
+from . import testshare
 """testsharethis URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -20,7 +20,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^/$', testshare.index),
+    url(r'^/$', include('testshare.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^testshare/', include('testshare.urls')),
 
