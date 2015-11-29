@@ -6,69 +6,81 @@
 
 {% block body_block %}
 
- <div class="row">
-    <div class="col-md-3">
-
-    </div>
-    <div class="col-md-6">
-    <h3>
-      {{ post.post_maker.user.username }}
-    </h3>
-
-    <br>
-    <p>
-      {{ post.post_text }}
-    </p>
-    </div>
-
-    <div class="col-md-3">
-
-    </div>
-</div>
-
-{% if post.post_photo %}
-<div class="row">
-<div class="col-md-3">
-
-    </div>
-    <div class="col-md-6">
-
-
-    <img src="{{ MEDIA_URL }}{{ post.post_photo }}" width="680">
-
-    </img>
-    </div>
-
-    <div class="col-md-3">
-
-    </div>
-</div>
-{% endif %}
     <div class="row">
-<div>
-                                        <br>
-                                        <br>
-                                    </div>
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-6">
+            <h3>
+                {{ post.post_maker.user.username }}
+            </h3>
+
+            <br>
+
+            <p>
+                {{ post.post_text }}
+            </p>
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+    {% if post.post_photo %}
+        <div class="row">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-6">
 
 
-                                    <ul class="nav navbar-nav post-nav">
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-comments">
-                                                    {{ post.post_sharecount }}
-                                                </i> Spreads
-                                            </a>
-                                        </li>
+                <img src="{{ MEDIA_URL }}{{ post.post_photo }}" width="680">
 
-                                        <li><a href="{% url 'spread' post.id %}  "><i class="fa fa-reply"></i>Spread it!!!!</a></li>
-                                        {% ifnotequal post.post_maker.user request.user %}
-                                        <li><a href="{% url 'block' post.post_maker.user.id %}"><i class="fa fa-lock"></i>Block </a></li>
+                </img>
+            </div>
 
-                                        {% endifnotequal %}
+            <div class="col-md-3">
 
-                                    </ul>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div>
+            <br>
+            <br>
+        </div>
 
-</div>
+        <div class="col-md-3">
+
+        </div>
+
+        <div class="col-md-6">
+            <ul class="nav navbar-nav post-nav">
+            <li>
+                <a href="#">
+                    <i class="fa fa-comments">
+                        {{ post.post_sharecount }}
+                    </i> Spreads
+                </a>
+            </li>
+
+            <li><a href="{% url 'spread' post.id %}  "><i class="fa fa-reply"></i>Spread it!!!!</a></li>
+            {% ifnotequal post.post_maker.user request.user %}
+                <li><a href="{% url 'block' post.post_maker.user.id %}"><i class="fa fa-lock"></i>Block </a></li>
+
+            {% endifnotequal %}
+
+        </ul>
+
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
 
 
-    {% endblock%}
+    </div>
+
+
+{% endblock %}
