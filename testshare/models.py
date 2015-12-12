@@ -18,8 +18,16 @@ class UserProfile(models.Model):
     about_me = models.CharField(blank=True, max_length=300)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     last_location = models.CharField(blank=True, max_length=300)
+    verification_status_choices = (
+        ('a', 'active'),
+        ('d', 'deactive'),
+        ('o', 'other'),
+        ('p', 'pending'),
+        ('s', 'suspended')
+    )
+    verification_status = models.CharField(blank=False, max_length=2, choices=verification_status_choices, default='p')
+    verification_code = models.CharField(blank=False, max_length=128, default='123456')
 
-    # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
 

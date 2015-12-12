@@ -1,184 +1,221 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load staticfiles %}
 <!DOCTYPE html>
 {% block title %}Home {% endblock %}
-{% block body_block %}        
-        
-        
-        
-        
+{% block body_block %}
 
-    <section id="home-slider" 
-        <div class="container">
-            <div class="main-slider">
-                <div class="slide-text" id="about_words">
-                    <h1>Share where <large>yo</large>u are!!</h1>
-                    <p >ShareThis is a social networking site based on the idea of geolocation. Share thiings with the people who are near you. Know the people around you, and share this!</p>
-                    <a href="#forms" class="btn btn-common">Join us or already with us?</a>
-                     
-                </div>
-                <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/circle2.png' %}" class="slider-circle2" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud1.png' %}" class="slider-cloud1" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud2.png' %}" class="slider-cloud2" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud3.png' %}" class="slider-cloud3" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="slider-sun" alt="slider image">
-                <img src="{% static 'images/home/cycle.png' %}" class="slider-cycle" alt="">
+
+
+
+
+    <section id="home-slider"
+    <div class="container">
+        <div class="main-slider">
+            <div class="slide-text" id="about_words">
+                <h1>Share where
+                    <large>yo</large>
+                    u are!!
+                </h1>
+                <p>ShareThis is a social networking site based on the idea of geolocation. Share thiings with the people
+                    who are near you. Know the people around you, and share this!</p>
+                <a href="#forms" class="btn btn-common">Join
+                us or already
+                with us?</a>
+
             </div>
+            <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house"
+                 alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/circle2.png' %}" class="slider-circle2" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud1.png' %}" class="slider-cloud1" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud2.png' %}" class="slider-cloud2" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud3.png' %}" class="slider-cloud3" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="slider-sun" alt="slider image">
+            <img src="{% static 'images/home/cycle.png' %}" class="slider-cycle" alt="">
         </div>
-        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </div>
+    <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
     </section>
     <div class="container">
-		<div class="row" id="forms">
-		<br>
-		<br>
-		<br>
-		</div>
-		<div class="row">
-		<br>
-		<br>
-		<br>
-		</div><div class="row">
-		<br>
-		<br>
-		<br>
-		</div>
-    	<div class="row" >
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-login">
-					<div class="panel-heading">
-						<div class="row" >
-							<div class="col-xs-6">
-								<a href="#login-form" id="login-form-link">Login</a>
-							</div>
-							<div class="col-xs-6">
-								<a href="#register-form" id="register-form-link">Register</a>
-							</div>
-						</div>
-						<hr>
-					</div>
-					<div class="panel-body" >
-						<div class="row">
-							<div class="col-lg-12">
-								<form id="login-form" action="{% url 'login' %}" method="post" role="form" style="display: block;"> {% csrf_token %}
-									{% csrf_token %}
-									<input type="hidden" name="next" value="{{ request.GET.next }}" />
-									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-									</div>
-									
-									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
-									</div>
-									<!--
-									<div class="form-group text-center">
-										<input type="checkbox" tabindex="3" class="" name="remember" id="remember">
-										<label for="remember"> Remember Me</label>
-									</div>
-									-->
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="text-center">
-													<a href="" tabindex="5" class="forgot-password">Forgot Password?</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</form>
-								<form id="register-form" action="{% url 'register' %}" method="post" role="form" style="display: none;"> {% csrf_token %}
-									{% csrf_token %}
-									<input type="hidden" name="next" value="{{ request.GET.next }}" />
-
-									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
-									</div>
-									<div class="form-group">
-										<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
-									</div>
-									<!--
-									<div class="form-group">
-										<input type="email" name="confirm-email" id="confirmemail" tabindex="1" class="form-control" placeholder="Confirm Email Address" value="">
-									</div>
-									-->
-																		<div class="form-group">
-										<input type="password" name="password1" id="password1" tabindex="2" class="form-control" placeholder="Password">
-									</div>
-									
-									<div class="form-group">
-										<input type="password" name="password2" id="password2" tabindex="2" class="form-control" placeholder="Confirm Password">
-									</div>
-									
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-											</div>
-										</div>
-									</div>
-								</form>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-    <!--/#home-slider-->
-  <div class="row">
-        <hr>
+        <div class="row" id="forms">
+            <br>
+            <br>
+            <br>
         </div>
+        <div class="row">
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="row">
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                {% if error.has_error %}
+                    <div class="errors" style="color: #ff0000">
+                        <strong>
+                            {{ error.message }}
+                        </strong>
+                    </div>
+                {% endif %}
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#login-form" id="login-form-link">Login</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#register-form" id="register-form-link">Register</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form id="login-form" action="{% url 'login' %}" method="post" role="form"
+                                      style="display: block;"> {% csrf_token %}
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" tabindex="1"
+                                               class="form-control" placeholder="Username" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="password" name="password" id="password" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+                                    <!--
+                                    <div class="form-group text-center">
+                                        <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                        <label for="remember"> Remember Me</label>
+                                    </div>
+                                    -->
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4"
+                                                       class="form-control btn btn-login" value="Log In">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <a href="" tabindex="5" class="forgot-password">Forgot
+                                                    Password?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <form id="register-form" action="{% url 'register' %}" method="post" role="form"
+                                      style="display: none;"> {% csrf_token %}
+                                    {% csrf_token %}
+
+
+                                    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+
+                                    <div class="form-group">
+                                        <input type="text" name="username" id="username" tabindex="1"
+                                               class="form-control" placeholder="Username" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" id="email" tabindex="1" class="form-control"
+                                               placeholder="Email Address" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="password" name="password1" id="password1" tabindex="2"
+                                               class="form-control" placeholder="Password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="password" name="password2" id="password2" tabindex="2"
+                                               class="form-control" placeholder="Confirm Password">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit"
+                                                       tabindex="4" class="form-control btn btn-register"
+                                                       value="Register Now">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/#home-slider-->
+
+    <br>
+    <br>
+    </br>
+    <div class="row">
+        <hr>
+    </div>
     <div id="about-us">
         <div class="container">
 
 
-        <!-- Introduction Row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header">ABOUT US
-                    	<small>share where you are!!!</small>
+            <!-- Introduction Row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">ABOUT US
+                        <small>share where you are!!!</small>
 
-                </h2>
-                <p> ShareThis is a social networking site based on the idea of geolocation. Share thiings with the people who are near you. Know the people around you, and share this!</p>
+                    </h2>
+                    <p> ShareThis is a social networking site based on the idea of geolocation. Share thiings with the
+                        people who are near you. Know the people around you, and share this!</p>
+                </div>
             </div>
+
+            <!-- Team Members Row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Our Team</h2>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <img class=" img-responsive img-center" src="{% static 'images/aboutus/n.jpg' %}" width="200"
+                         alt="">
+
+                    <h3>Naved
+                        <small></small>
+                    </h3>
+                    <p>rights codes</p>
+                </div>
+                <div class="col-lg-6 col-sm-6 text-center">
+                    <img class="img-responsive img-center" src="{% static 'images/aboutus/f.jpg' %}" width="200" alt="">
+
+                    <h3>Farabi
+                        <small></small>
+                    </h3>
+                    <p>lefts codes</p>
+                </div>
+            </div>
+
+            <hr>
+
         </div>
-
-        <!-- Team Members Row -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header">Our Team</h2>
-            </div>
-            <div class="col-lg-6 col-sm-6 text-center">
-                <img class=" img-responsive img-center"  src="{% static 'images/aboutus/n.jpg' %}" width="200" alt="">
-                <h3>Naved
-                    <small></small>
-                </h3>
-                <p>rights codes</p>
-            </div>
-            <div class="col-lg-6 col-sm-6 text-center">
-                <img class="img-responsive img-center" src="{% static 'images/aboutus/f.jpg' %}" width="200"  alt="">
-                <h3>Farabi
-                    <small></small>
-                </h3>
-                <p>lefts codes</p>
-            </div>
-        </div>
-
-        <hr>
-
-    </div>
     </div>
 
-    
-    
-{% endblock%}
+
+
+{% endblock %}
     

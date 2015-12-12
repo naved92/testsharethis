@@ -75,6 +75,7 @@
                         <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                 </div>
+                <!--
                 <div class="search">
                     <form role="form">
                         <i class="fa fa-search"></i>
@@ -83,6 +84,7 @@
                         </div>
                     </form>
                 </div>
+                -->
             </div>
 </div>
 
@@ -104,12 +106,13 @@
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href="../sharethis">Home</a></li>
-                        <li><a href="#about-us">About Us</a></li>
+                        <li><a href="{% url 'newsfeed' %}">Home</a></li>
+                        <li><a href="{% url 'aboutus' %}">About Us</a></li>
                         <li><a href="#forms">Join</a></li>
 
                         </ul>
                 </div>
+                <!--
                 <div class="search">
                     <form role="form">
                         <i class="fa fa-search"></i>
@@ -118,6 +121,7 @@
                         </div>
                     </form>
                 </div>
+                -->
             </div>
         </div>
     {% endif %}
@@ -144,7 +148,8 @@
                 </div>
                 <div class="col-sm-12">
                     <div class="copyright-text text-center">
-                        <p>&copy; Mir Imtiaz Mostafiz and S.M.Farabi Mahmud 2015. All Rights Reserved.</p>
+                            <p>&copy; Mir Imtiaz Mostafiz and S.M.Farabi Mahmud 2015. All Rights Reserved.</p>
+
                     </div>
                 </div>
             </div>

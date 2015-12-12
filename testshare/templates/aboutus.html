@@ -6,24 +6,37 @@
 
 {% block body_block %}
 
-<section id="home-slider"
-        <div class="container">
-            <div class="main-slider">
-                <div class="slide-text" id="about_words">
-                    <h1>Share where you are!!!</h1>
-                    <p >{{ post.post_text }}</p>
-                </div>
-                <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/circle2.png' %}" class="slider-circle2" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud1.png' %}" class="slider-cloud1" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud2.png' %}" class="slider-cloud2" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/cloud3.png' %}" class="slider-cloud3" alt="slider image">
-                <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="slider-sun" alt="slider image">
-                <img src="{% static 'images/home/cycle.png' %}" class="slider-cycle" alt="">
+    <section id="home-slider"
+    <div class="container">
+        <div class="main-slider">
+            <div class="slide-text" id="about_words">
+                <h1>Share where you are!!!</h1>
+
+                <p>
+                    ShareThis is a geo-location based social networking site that breezes the gap between you and people
+                    who are around you right now.
+                    </br>
+                    </br>
+                    <br>
+                    This is a project done for the CSE324 Software Development course under the supervision of-
+                    <br>
+                    <strong>Madhusudan Basak</strong>,
+                    <br>Lecturer,
+                    <br>Department of CSE, BUET.
+                </p>
             </div>
+            <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house"
+                 alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/circle2.png' %}" class="slider-circle2" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud1.png' %}" class="slider-cloud1" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud2.png' %}" class="slider-cloud2" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/cloud3.png' %}" class="slider-cloud3" alt="slider image">
+            <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="slider-sun" alt="slider image">
+            <img src="{% static 'images/home/cycle.png' %}" class="slider-cycle" alt="">
         </div>
-        <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
+    </div>
+    <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>
     </section>
 
-{% endblock%}
+{% endblock %}

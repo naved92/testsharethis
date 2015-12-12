@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+{% load staticfiles %}
+{% block title %}Email Verification{% endblock %}
+
+{% block body_block %}
+<div class="row">
+	<div class="col-lg-3">
+	
+	</div>
+    <div class="col-lg-6">
+        <form class="form-signin" id="verification_form" method="POST" action='/testshare/verification/'>
+            <h2> Please insert the code sent to your email address <i><small>{{ user_profile.email }}</small></i> </h2>
+            {% csrf_token %}
+            {% if error.has_error %}
+                <div class="errors">{{ error.message }}</div>
+            {% endif %}
+            {{ form.verification_code }}
+            <br>
+            <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="submit">Verify</button>
+        </form>
+
+        <br>
+        <br>
+        <p align="center">Did not get your code? click <a href="#">here</a> to resend </p>
+        
+	</div>
+		<div class="col-lg-3">
+	
+		</div>
+
+
+</div>
+    
+        
+        
+               
+        
+        
+
+   
+{% endblock %}
