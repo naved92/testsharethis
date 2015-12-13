@@ -5,27 +5,36 @@ from django.http import HttpResponseRedirect,HttpRequest
 from django.core.context_processors import csrf
 from django.template.context_processors import request
 from django.shortcuts import redirect
-from testshare.models import User, UserProfile, Post,Profileposts,Block,Location
-from testshare.forms import RegistrationForm,UpdateProfileForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+
 from datetime import datetime
 from string import join,split
 from random import randint
-from django.core.urlresolvers import reverse
-import cgi
 from urllib2 import urlopen
 from contextlib import closing
-import json
 from ipware.ip import get_ip
+
+import cgi
+import json
 import math
 import sys
 import requests
-from django.db.models import Q
+
 from .forms import VerificationForm, PasswordChangeForm
+from testshare.models import User, UserProfile, Post,Profileposts,Block,Location
+from testshare.forms import RegistrationForm,UpdateProfileForm
+
+# utility functions
 
 def get_ip_add():
-	r = requests.get(r'http://jsonip.com')
+    """
+    returns the ip address of the client
+    :return:the ip address of the client
+    """
+    r = requests.get(r'http://jsonip.com')
 	ip= r.json()['ip']
 	print 'Your IP is', ip
 	return ip
@@ -34,11 +43,8 @@ def get_location(ip):
     """
     determines location using http:freegeoip.net API
 
-    Args:
-        ip(str): a valid global ipv4 address
-
-    Returns:
-        location_data(dict): a JSON format containing necessary attributes of a location based on the given ip
+    :param ip(str):a valid global ipv4 address
+    :return:location_data(dict): a JSON format containing necessary attributes of a location based on the given ip
 
             Example:
 
@@ -51,12 +57,7 @@ def get_location(ip):
             u'zip_code': u''
             }
 
-    Raises:
-
-        if location can not be determined,prints "Location can not be determined successfully"
-
     """
-
     url = 'http://freegeoip.net/json/'
     url += str(ip)
     try:
@@ -71,17 +72,12 @@ def get_location(ip):
 
 
 def get_ip_address(request):
-
     """
     returns the remote address of the client request
 
-    Args:
-        request(Request): a Request variable,whose remote address has to be determined
 
-    Returns:
-        ip_address(str): a string representing a valid ipv4 address
-
-
+    :param request: a Request variable,whose remote address has to be determined
+    :return: a string representing a valid ipv4 address
     """
 
     ip_address = get_ip(request)
@@ -96,10 +92,7 @@ def get_proximity_range(location_data,x_range,y_range):
     """
     returns the range of the latitude and longitude in between which a user can see others posts
 
-    Args:
-        location_data(dict):
-
-            a JSON format dictionary containing necessary attributes of a location based on the given ip
+    :param location_data:a JSON format dictionary containing necessary attributes of a location based on the given ip
 
             Example:
 
@@ -112,17 +105,9 @@ def get_proximity_range(location_data,x_range,y_range):
             u'zip_code': u''
             }
 
-        x_range(double):
-            range of longitude
-
-        y_range(double):
-            range of latitude
-
-    Returns:
-
-        proximity_range(dict):
-
-            a dictionary containing the [min,max] of [latitude,logitude]
+    :param x_range:range of longitude
+    :param y_range:range of latitude
+    :return:a dictionary containing the [min,max] of [latitude,logitude]
 
             example:
                 {
@@ -131,8 +116,8 @@ def get_proximity_range(location_data,x_range,y_range):
                 'min_long':-98.23,
                 'max_long':127.12
                 }
-    """
 
+    """
     proximity_range = dict(min_lat=-90.00, max_lat=90.00, min_long=-180.00, max_long=180.00)
 
     proximity_range['min_lat'] = math.ceil(location_data['latitude']-y_range)
@@ -173,7 +158,45 @@ def get_valid_range(request,x_range,y_range):
 
     return get_proximity_range(get_location(get_ip_address(request)),x_range,y_range)
 
+def get_random_ip():
+    """
+    return a random website from a list,done for testing purpose in localhost
+    :return: a url of a prominent site
+    """
+    sitelist=['google.com','youtube.com','goal.com','backpack.com']
+    choice = int(randint(0,len(sitelist)-1))
 
+    return sitelist[choice];
+
+def get_random_location():
+    """
+    get location of a randomly selected ip
+    :return:an instance of the Location class
+    """
+    location_dict= get_location(get_random_ip())
+    print(location_dict)
+    if str(location_dict['region_name'])== '':
+        location_dict['region_name']=location_dict['country_name']
+
+    location= Location(location_name=str(location_dict['region_name']),location_lat=location_dict['latitude'],location_long=location_dict['longitude'])
+    location.save()
+    return location
+
+def is_near(latitude,longitude):
+    """
+    return the valid spreading range(+- 10) of a location based on latitude,longitude
+    :param latitude:latitude of the location
+    :param longitude:longitude of the location
+    :return:a list containing the valid upper and lower bounds of latitude and longitude
+    """
+    range_loc=[]
+    range_loc.append(latitude+10.00)
+    range_loc.append(latitude-10.00)
+    range_loc.append(longitude+10.00)
+    range_loc.append(longitude-10.00)
+    return range_loc
+
+#view functions
 def index(request):
     """
     loads the initial web page showing the client the basic view of the website
@@ -194,8 +217,8 @@ def aboutus(request):
     """
     The about us page of the site. Contains the information about the site creators.
     login is not required
-    :param request:
-    :return:
+    :param request:the HTMLRequest
+    :return:renders the 'aboutus.html' page
     """
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
@@ -206,6 +229,14 @@ def aboutus(request):
 
 @login_required(login_url='/testshare/')
 def updateinfo(request):
+    """
+    A page containing the update info form
+    :param request:the HTMLRequest
+    :return: if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else if the request method is GET,it shows an update form
+             else it writes updated info in database and redirects to 'profile.html'
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -237,6 +268,15 @@ def updateinfo(request):
 
 @login_required(login_url='/testshare/')
 def profile(request,user_id):
+    """
+    A page showing the profile of the requested user id
+    :param request: the HTMLRequest
+    :param user_id: the requested user id
+    :return: if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else if the requesting user is blocked by the requested user or has blocked requested user,an error page is shown
+             else shows user profile with his/her info and posts on
+    """
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
 
@@ -293,6 +333,18 @@ def profile(request,user_id):
 
 @login_required(login_url='/testshare/')
 def profile_by_name(request,user_name):
+    """
+    A page showing the profile of the requested user
+
+    :param request:the HTMLRequest
+    :param user_name:the requested user id
+
+    :return:if the user is not logged in,it redirects to the index page
+            else if the user is not verified,it redirects to 'verification.html'
+            else if the requesting user is blocked by the requested user or has blocked requested user,an error page is shown
+            else shows user profile with his/her info and posts on
+
+    """
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
@@ -348,6 +400,13 @@ def profile_by_name(request,user_name):
         return render_to_response('profile.html', {'posts':profilepostlist,'label':toplabel,'userprofile':username,'blocks':blocks}, context)
 
 def about(request):
+    """
+    The about us page of the site. Contains the information about the site creators.
+    login is not required
+    :param request:the HTMLRequest
+    :return:renders the 'about.html' page
+    """
+
     # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
@@ -363,7 +422,12 @@ def about(request):
 
 
 def register(request):
-
+    """
+    The registration page renderer
+    :param request:The HTMLRequest
+    :return: if the request method is POST,registers the ser
+            else it just shows the registration form
+    """
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -396,6 +460,12 @@ def register(request):
 
 
 def user_login(request):
+    """
+    User login renderer
+    :param request: The HTMLRequest
+    :return: if the user is authenticated,redirects him to newsfeed
+            else redirects him to this page again
+    """
     context = RequestContext(request)
     logout(request)
 
@@ -418,16 +488,24 @@ def user_login(request):
 @login_required(login_url='/testshare/')
 def newsfeed(request):
     """
-    req_loc=get_random_location()
-    print('The request location data is')
-    print('Location name ',req_loc.location_name,' longitude ',req_loc.location_long,' latitude ',req_loc.location_lat,' ')
-    minlat=(req_loc.location_lat)-10.00
-    maxlat=(req_loc.location_lat)+10.00
-    minlong=(req_loc.location_long)-10.00
-    maxlong=(req_loc.location_long)+10.00
+    The newsfeed renderer
+    :param request: The HTMLRequest
+    :return:  if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else if the request method is GET,it loads the newsfeed
+             else it posts status and uploads photo(optionally)
 
     """
     context = RequestContext(request)
+    #req_loc=get_random_location()
+    #print('The request location data is')
+    #print('Location name ',req_loc.location_name,' longitude ',req_loc.location_long,' latitude ',req_loc.location_lat,' ')
+    #minlat=(req_loc.location_lat)-10.00
+    #maxlat=(req_loc.location_lat)+10.00
+    #minlong=(req_loc.location_long)-10.00
+    #maxlong=(req_loc.location_long)+10.00
+
+
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
         return HttpResponseRedirect(reverse('verification'))
@@ -487,6 +565,11 @@ def newsfeed(request):
 
 @login_required(login_url='/testshare/')
 def user_logout(request):
+    """
+    Destroys the session
+    :param request: The HTMLRequest
+    :return: logs out the user
+    """
     # Since we know the user is logged in, we can now just log them out.
     logout(request)
 
@@ -495,6 +578,16 @@ def user_logout(request):
 
 @login_required(login_url='/testshare/')
 def spread(request,post_id):
+    """
+    Spreads the post of a user within the range
+    :param request:The HTMLRequest
+    :param post_id: the post id
+    :return:  if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else if the requesting user is blocked by the requested user or has blocked requested user,an error page is shown
+            else spreads the post and redirects to newsfeed page
+
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -525,6 +618,16 @@ def spread(request,post_id):
 
 @login_required(login_url='/testshare/')
 def post(request,post_id):
+
+    """
+    Shows the post of a user within the range
+    :param request:The HTMLRequest
+    :param post_id: the post id
+    :return:  if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else if the requesting user is blocked by the requested user or has blocked requested user,an error page is shown
+            else shows the post
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -544,6 +647,12 @@ def post(request,post_id):
 
 @login_required(login_url='/testshare/')
 def block(request,user_id):
+    """
+    Blocks the requested user id
+    :param request: The HTMLRequest
+    :param user_id: the desired blocked user id
+    :return: blocks the user id
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -558,6 +667,13 @@ def block(request,user_id):
 
 @login_required(login_url='/testshare/')
 def unblock(request,user_id):
+    """
+    Unblocks the requested user id
+    :param request: The HTMLRequest
+    :param user_id: the desired blocked user id
+    :return: Unblocks the user id
+
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -572,6 +688,11 @@ def unblock(request,user_id):
 
 @login_required(login_url='/testshare/')
 def find_blocks(request):
+    """
+    returns the blocklist of user along with the list of people who blocked the user
+    :param request: The HTMLRequest
+    :return: A list containing the users the requested user blocked or vice versa
+    """
     context = RequestContext(request)
     user_profile = request.user.userprofile
     if user_profile.verification_status == 'p':
@@ -593,6 +714,13 @@ def find_blocks(request):
         return not_block_list
 
 def nopermission(request):
+    """
+    Shows the no permission paged in case of block
+    :param request: The HTMLRequest
+    :return:  if the user is not logged in,it redirects to the index page
+             else if the user is not verified,it redirects to 'verification.html'
+             else show the no permission page with message
+    """
        # Request the context of the request.
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
@@ -608,32 +736,6 @@ def nopermission(request):
         # Note that the first parameter is the template we wish to use.
         return render_to_response('nopermission.html', {}, context)
 
-
-def get_random_ip():
-
-    sitelist=['google.com','youtube.com','goal.com','backpack.com']
-    choice = int(randint(0,len(sitelist)-1))
-
-    return sitelist[choice];
-
-def get_random_location():
-
-    location_dict= get_location(get_random_ip())
-    print(location_dict)
-    if str(location_dict['region_name'])== '':
-        location_dict['region_name']=location_dict['country_name']
-
-    location= Location(location_name=str(location_dict['region_name']),location_lat=location_dict['latitude'],location_long=location_dict['longitude'])
-    location.save()
-    return location
-
-def is_near(latitude,longitude):
-    range_loc=[]
-    range_loc.append(latitude+10.00)
-    range_loc.append(latitude-10.00)
-    range_loc.append(longitude+10.00)
-    range_loc.append(longitude-10.00)
-    return range_loc
 
 
 @login_required(login_url='/testshare/')
@@ -673,6 +775,14 @@ def verification(request):
 
 @login_required(login_url='/testshare/')
 def change_password(request):
+    """
+    Shows the change password form or changes the password based on request method
+    :param request: The HTMLRequest
+    :return: if the user is not logged in,redirects to index page
+            else if the method is GET,just shows the form
+            else updates the password if validated
+            else again shows the form with error notice
+    """
     requesting_user_profile = request.user.userprofile
     if request.method == 'POST':
         change_password_form = PasswordChangeForm(request.POST)
