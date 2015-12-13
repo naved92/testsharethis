@@ -35,9 +35,9 @@ def get_ip_add():
     :return:the ip address of the client
     """
     r = requests.get(r'http://jsonip.com')
-	ip= r.json()['ip']
-	print 'Your IP is', ip
-	return ip
+    ip= r.json()['ip']
+    print 'Your IP is', ip
+    return ip
 
 def get_location(ip):
     """
