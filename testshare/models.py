@@ -4,12 +4,14 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-"""Model refereing to user profile,based on the top of django User model"""
-"""about_me->about me text about the user"""
-"""picture->profile picture of the user"""
-"""last_location->last location of the user"""
 
 class UserProfile(models.Model):
+    """Model referring to user profile,based on the top of django User model
+    about_me->about me text about the user
+    picture->profile picture of the user
+    last_location->last location of the user
+
+    """
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
@@ -31,22 +33,27 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
 
-"""Model refering to the different locations of the users."""
 
 class Location(models.Model):
+    """
+    Model referring to the different locations of the users.
+    """
     location_name = models.CharField(blank=True, max_length=300)
     location_lat = models.FloatField(blank=True, null=True)
     location_long = models.FloatField(blank=True, null=True)
 
 
-class Log(models.Model):
-    logger = models.ForeignKey(UserProfile)
-    logtext = models.CharField(blank=True, max_length=50)
-    timestamp = models.DateTimeField(blank=True)
+#class Log(models.Model):
+#    logger = models.ForeignKey(UserProfile)
+#    logtext = models.CharField(blank=True, max_length=50)
+#    timestamp = models.DateTimeField(blank=True)
 
 
 
 class Post(models.Model):
+    """
+    Model referring to the user posts.
+    """
     post_maker = models.ForeignKey(UserProfile)
     post_text = models.CharField(blank=True, max_length=300)
     post_photo = models.ImageField(upload_to='post_images/', blank=True)
@@ -61,12 +68,18 @@ class Post(models.Model):
 
 
 class Block(models.Model):
+    """
+    Model referring to the blocks
+    """
     blocker = models.ForeignKey(UserProfile, related_name='user_who_blocked')
     blocked = models.ForeignKey(UserProfile, related_name='user_who_got_blocked')
     block_time = models.DateTimeField(blank=True)
 
 
 class Profileposts:
+    """
+    A helper class for rendering profile posts
+    """
     def __init__(self):
         self.post_info = Post()
         self.alignment=""
